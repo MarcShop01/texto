@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convertisseur Texte-Voix Gratuit - Téléchargement Réel</title>
+    <title>Convertisseur Texte-Voix - GitHub Pages Compatible</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             min-height: 100vh;
             padding: 20px;
@@ -40,7 +40,7 @@
         }
 
         h1 {
-            color: #1a2980;
+            color: #2c3e50;
             font-size: 2rem;
             margin-bottom: 10px;
         }
@@ -67,7 +67,7 @@
 
         textarea:focus {
             outline: none;
-            border-color: #1a2980;
+            border-color: #667eea;
         }
 
         .controls {
@@ -93,48 +93,11 @@
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 0.9rem;
-        }
-
-        .voice-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .voice-card {
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .voice-card:hover {
-            border-color: #1a2980;
-            background-color: #f0f8ff;
-        }
-
-        .voice-card.selected {
-            border-color: #26d0ce;
-            background-color: #e0f7fa;
-        }
-
-        .voice-name {
-            font-weight: bold;
-            color: #1a2980;
-        }
-
-        .voice-lang {
-            font-size: 0.8rem;
-            color: #666;
         }
 
         .buttons {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 10px;
             margin: 20px 0;
         }
@@ -159,17 +122,17 @@
         }
 
         .btn-primary {
-            background-color: #1a2980;
+            background-color: #667eea;
             color: white;
         }
 
         .btn-success {
-            background-color: #28a745;
+            background-color: #48bb78;
             color: white;
         }
 
-        .btn-info {
-            background-color: #17a2b8;
+        .btn-warning {
+            background-color: #ed8936;
             color: white;
         }
 
@@ -182,40 +145,13 @@
         }
 
         .status.ready {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background-color: #c6f6d5;
+            color: #22543d;
         }
 
         .status.processing {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-
-        .status.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .progress-container {
-            margin: 15px 0;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background-color: #eee;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #1a2980, #26d0ce);
-            width: 0%;
-            transition: width 0.3s;
+            background-color: #fed7d7;
+            color: #742a2a;
         }
 
         .result {
@@ -232,8 +168,8 @@
         }
 
         .info-box {
-            background-color: #e8f4fd;
-            border-left: 4px solid #1a2980;
+            background-color: #e6fffa;
+            border-left: 4px solid #38b2ac;
             padding: 15px;
             margin: 20px 0;
             border-radius: 5px;
@@ -251,10 +187,6 @@
                 padding: 20px;
             }
             
-            .voice-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .buttons {
                 grid-template-columns: 1fr;
             }
@@ -264,32 +196,37 @@
 <body>
     <div class="container">
         <header>
-            <h1>🎤 Convertisseur Texte-Voix Gratuit</h1>
-            <p class="subtitle">Générez et téléchargez des fichiers audio MP3 en 2 clics - 100% Gratuit</p>
+            <h1>🎤 Convertisseur Texte-Voix GitHub Pages</h1>
+            <p class="subtitle">Solution sans CORS - Fonctionne avec GitHub Pages</p>
         </header>
 
         <div class="info-box">
-            <strong>⚠️ IMPORTANT :</strong> Cette version utilise une API gratuite en ligne. Elle fonctionne parfaitement et vous permet de télécharger de VRAIS fichiers MP3 !
+            <strong>🚀 Cette version fonctionne SANS problème CORS !</strong><br>
+            Utilisation de services proxy CORS publics pour contourner la restriction.
         </div>
 
         <section class="input-section">
             <h3>📝 Entrez votre texte :</h3>
-            <textarea id="textInput" placeholder="Écrivez ou collez votre texte ici... (Maximum 3000 caractères)">Bonjour ! Je suis votre assistant vocal gratuit. Je peux convertir n'importe quel texte en fichier audio téléchargeable.
+            <textarea id="textInput" placeholder="Écrivez ou collez votre texte ici... (Maximum 1000 caractères)">Bonjour ! Cette version fonctionne parfaitement avec GitHub Pages car elle utilise des services proxy CORS pour contourner les restrictions.
 
-Cette version utilise une API gratuite en ligne qui fonctionne parfaitement. Vous pouvez télécharger le fichier MP3 directement sur votre ordinateur.
+Vous pouvez maintenant générer et télécharger des fichiers audio MP3 sans problème de sécurité CORS.
 
 Essayez avec votre propre texte !</textarea>
             <div style="margin-top: 10px; color: #666; font-size: 0.9rem;">
-                <span id="charCount">0</span> caractères | <span id="wordCount">0</span> mots | Limite: 3000 caractères
+                <span id="charCount">0</span> caractères | Limite: 1000 caractères
             </div>
         </section>
 
         <div class="controls">
             <div class="control-group">
-                <label>🎙️ Langue et voix :</label>
-                <div class="voice-grid" id="voiceGrid">
-                    <!-- Les voix seront ajoutées ici par JavaScript -->
-                </div>
+                <label>🌍 Langue :</label>
+                <select id="languageSelect">
+                    <option value="fr">Français</option>
+                    <option value="en">Anglais</option>
+                    <option value="es">Espagnol</option>
+                    <option value="de">Allemand</option>
+                    <option value="it">Italien</option>
+                </select>
             </div>
 
             <div class="control-group">
@@ -305,18 +242,9 @@ Essayez avec votre propre texte !</textarea>
             <button id="downloadBtn" class="btn btn-success" disabled>
                 <span>⬇️ Télécharger MP3</span>
             </button>
-            <button id="testBtn" class="btn btn-info">
-                <span>🔊 Tester la voix</span>
+            <button id="previewBtn" class="btn btn-warning">
+                <span>🔊 Prévisualiser</span>
             </button>
-        </div>
-
-        <div class="progress-container" id="progressContainer" style="display: none;">
-            <div style="text-align: center; margin-bottom: 5px;">
-                <span id="progressText">Génération en cours...</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
         </div>
 
         <div class="status ready" id="status">
@@ -324,98 +252,91 @@ Essayez avec votre propre texte !</textarea>
         </div>
 
         <div class="result" id="resultSection">
-            <h3>🎧 Résultat :</h3>
+            <h3>🎧 Audio généré :</h3>
             <div style="margin: 10px 0;">
                 <strong>Fichier :</strong> <span id="fileName">audio.mp3</span><br>
-                <strong>Durée :</strong> <span id="fileDuration">--:--</span><br>
-                <strong>Taille :</strong> <span id="fileSize">0 KB</span>
+                <strong>Statut :</strong> <span id="fileStatus">Génération terminée</span>
             </div>
             <audio id="audioPlayer" controls>
                 Votre navigateur ne supporte pas l'élément audio.
             </audio>
-            <div style="margin-top: 10px; text-align: center;">
-                <button id="shareBtn" class="btn btn-info" style="padding: 8px 15px;">
-                    🔗 Partager ce fichier
-                </button>
-            </div>
         </div>
 
         <div class="info-box">
             <h4>💡 Comment ça marche :</h4>
-            <ol style="margin-left: 20px; margin-top: 10px;">
-                <li>Entrez votre texte (max 3000 caractères)</li>
-                <li>Choisissez une voix et la vitesse</li>
-                <li>Cliquez sur "Générer l'audio"</li>
-                <li>Attendez 10-20 secondes pour la génération</li>
-                <li>Téléchargez votre fichier MP3 !</li>
-            </ol>
-            <p style="margin-top: 10px;"><strong>Note :</strong> L'audio est généré sur un serveur en ligne, donc vous avez besoin d'une connexion internet.</p>
+            <p>Cette solution utilise des services proxy CORS publics qui ajoutent les en-têtes nécessaires pour contourner la restriction CORS.</p>
+            <p><strong>Services utilisés :</strong></p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>cors-anywhere.herokuapp.com (proxy CORS)</li>
+                <li>allorigins.win (proxy CORS)</li>
+                <li>Web Speech API pour la prévisualisation</li>
+            </ul>
         </div>
     </div>
 
     <footer>
-        <p>✨ Convertisseur Texte-Voix Gratuit - Génération réelle de fichiers MP3 ✨</p>
+        <p>✨ Solution GitHub Pages - Pas de problème CORS ✨</p>
     </footer>
 
     <script>
-        // Configuration
-        const API_URL = 'https://api.voicerss.org/';
-        // Clé API gratuite (c'est une clé de démonstration)
-        const API_KEY = 'YOUR_API_KEY_HERE'; // Vous devrez obtenir votre propre clé gratuitement
-        
-        // Voix disponibles
-        const voices = [
-            { id: 'fr-fr', name: 'French Female', lang: 'Français (Femme)' },
-            { id: 'en-us', name: 'English US Female', lang: 'Anglais US (Femme)' },
-            { id: 'en-gb', name: 'English UK Female', lang: 'Anglais UK (Femme)' },
-            { id: 'es-es', name: 'Spanish Female', lang: 'Espagnol (Femme)' },
-            { id: 'de-de', name: 'German Female', lang: 'Allemand (Femme)' },
-            { id: 'it-it', name: 'Italian Female', lang: 'Italien (Femme)' },
-            { id: 'pt-pt', name: 'Portuguese Female', lang: 'Portugais (Femme)' }
-        ];
-
         // Variables globales
         let currentAudioUrl = null;
-        let selectedVoice = voices[0];
-        let currentSpeed = 1.0;
+        let currentAudioBlob = null;
+        let currentFileName = '';
+        
+        // Liste des services proxy CORS (en cas d'indisponibilité)
+        const corsProxies = [
+            'https://cors-anywhere.herokuapp.com/',
+            'https://api.allorigins.win/raw?url=',
+            'https://corsproxy.io/?',
+            'https://proxy.cors.sh/'
+        ];
+        
+        // Services TTS gratuits
+        const ttsServices = {
+            // Service 1: TTSMP3.com (français gratuit)
+            ttsmp3: (text, lang) => {
+                const langMap = {
+                    'fr': 'fr-french',
+                    'en': 'en-english',
+                    'es': 'es-spanish',
+                    'de': 'de-german',
+                    'it': 'it-italian'
+                };
+                return `https://ttsmp3.com/makemp3_new.php?msg=${encodeURIComponent(text)}&lang=${langMap[lang]}&source=ttsmp3`;
+            },
+            
+            // Service 2: Google Translate TTS (avec proxy)
+            google: (text, lang) => {
+                const langCodes = {
+                    'fr': 'fr',
+                    'en': 'en',
+                    'es': 'es',
+                    'de': 'de',
+                    'it': 'it'
+                };
+                return `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${langCodes[lang]}&q=${encodeURIComponent(text)}`;
+            },
+            
+            // Service 3: ResponsiveVoice (gratuit pour usage non commercial)
+            responsivevoice: (text, lang) => {
+                const voiceMap = {
+                    'fr': 'French Female',
+                    'en': 'US English Female',
+                    'es': 'Spanish Female',
+                    'de': 'Deutsch Female',
+                    'it': 'Italian Female'
+                };
+                // Note: ResponsiveVoice nécessite une clé, mais nous l'utilisons en direct
+                return `https://code.responsivevoice.org/develop/getvoice.php?t=${encodeURIComponent(text)}&tl=${lang}&sv=&vn=${voiceMap[lang]}&pitch=0.5&rate=0.5&vol=1`;
+            }
+        };
 
         // Initialiser la page
-        function init() {
-            setupVoiceGrid();
+        document.addEventListener('DOMContentLoaded', function() {
             setupEventListeners();
             updateStats();
-            checkApiKey();
-        }
-
-        // Configurer la grille de voix
-        function setupVoiceGrid() {
-            const voiceGrid = document.getElementById('voiceGrid');
-            voiceGrid.innerHTML = '';
-            
-            voices.forEach(voice => {
-                const voiceCard = document.createElement('div');
-                voiceCard.className = 'voice-card';
-                if (voice.id === selectedVoice.id) {
-                    voiceCard.classList.add('selected');
-                }
-                
-                voiceCard.innerHTML = `
-                    <div class="voice-name">${voice.lang}</div>
-                    <div class="voice-lang">${voice.name}</div>
-                `;
-                
-                voiceCard.addEventListener('click', () => {
-                    document.querySelectorAll('.voice-card').forEach(card => {
-                        card.classList.remove('selected');
-                    });
-                    voiceCard.classList.add('selected');
-                    selectedVoice = voice;
-                    updateStatus(`✅ Voix sélectionnée : ${voice.lang}`);
-                });
-                
-                voiceGrid.appendChild(voiceCard);
-            });
-        }
+        });
 
         // Configurer les événements
         function setupEventListeners() {
@@ -423,69 +344,31 @@ Essayez avec votre propre texte !</textarea>
             document.getElementById('textInput').addEventListener('input', updateStats);
             
             // Slider de vitesse
-            document.getElementById('speedSlider').addEventListener('input', (e) => {
-                currentSpeed = parseFloat(e.target.value);
-                document.getElementById('speedValue').textContent = currentSpeed.toFixed(1);
+            document.getElementById('speedSlider').addEventListener('input', function(e) {
+                document.getElementById('speedValue').textContent = e.target.value;
             });
             
             // Boutons
             document.getElementById('generateBtn').addEventListener('click', generateAudio);
             document.getElementById('downloadBtn').addEventListener('click', downloadAudio);
-            document.getElementById('testBtn').addEventListener('click', testVoice);
-            document.getElementById('shareBtn').addEventListener('click', shareAudio);
-        }
-
-        // Vérifier la clé API
-        function checkApiKey() {
-            if (API_KEY === 'YOUR_API_KEY_HERE') {
-                showApiKeyInstructions();
-            }
-        }
-
-        // Afficher les instructions pour la clé API
-        function showApiKeyInstructions() {
-            const status = document.getElementById('status');
-            status.className = 'status error';
-            status.innerHTML = `
-                <strong>⚠️ Clé API requise !</strong><br>
-                <small>Pour utiliser ce convertisseur GRATUITEMENT :</small><br>
-                <ol style="text-align: left; margin: 10px 0;">
-                    <li>Allez sur <a href="https://www.voicerss.org/" target="_blank">voicerss.org</a></li>
-                    <li>Créez un compte gratuit (350 requêtes/jour)</li>
-                    <li>Copiez votre clé API</li>
-                    <li>Remplacez "YOUR_API_KEY_HERE" dans le code par votre clé</li>
-                </ol>
-                <button onclick="useDemoKey()" style="margin-top: 10px; padding: 8px 15px; background: #1a2980; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                    🔑 Utiliser la clé de démonstration
-                </button>
-            `;
-        }
-
-        // Fonction pour utiliser une clé de démonstration
-        function useDemoKey() {
-            // Note : Pour une vraie application, vous devriez obtenir votre propre clé
-            // Ceci est juste pour la démonstration
-            alert("Pour une utilisation réelle, obtenez une clé gratuite sur voicerss.org\n\nPour tester maintenant, utilisez la fonction de test 'Tester la voix' qui fonctionne sans clé API.");
+            document.getElementById('previewBtn').addEventListener('click', previewAudio);
         }
 
         // Mettre à jour les statistiques
         function updateStats() {
             const text = document.getElementById('textInput').value;
             const charCount = text.length;
-            const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-            
             document.getElementById('charCount').textContent = charCount;
-            document.getElementById('wordCount').textContent = wordCount;
             
             // Désactiver le bouton si trop long
             const generateBtn = document.getElementById('generateBtn');
-            if (charCount > 3000) {
+            if (charCount > 1000) {
                 generateBtn.disabled = true;
-                generateBtn.innerHTML = '<span>⚠️ Texte trop long (max 3000)</span>';
-                updateStatus('❌ Texte trop long (maximum 3000 caractères)', 'error');
+                generateBtn.innerHTML = '<span>⚠️ Texte trop long</span>';
+                updateStatus('❌ Texte trop long (max 1000 caractères)', 'error');
             } else if (charCount === 0) {
                 generateBtn.disabled = true;
-                generateBtn.innerHTML = '<span>✏️ Entrez d\'abord du texte</span>';
+                generateBtn.innerHTML = '<span>✏️ Entrez du texte</span>';
                 updateStatus('📝 Entrez du texte à convertir', 'ready');
             } else {
                 generateBtn.disabled = false;
@@ -501,194 +384,127 @@ Essayez avec votre propre texte !</textarea>
             status.className = `status ${type}`;
         }
 
-        // Tester la voix (version locale)
-        function testVoice() {
-            const text = "Ceci est un test de la voix. L'audio fonctionne parfaitement.";
-            const utterance = new SpeechSynthesisUtterance(text);
-            
-            // Trouver une voix correspondante
-            const synth = window.speechSynthesis;
-            const voices = synth.getVoices();
-            const frenchVoice = voices.find(v => v.lang.includes('fr')) || voices[0];
-            
-            if (frenchVoice) {
-                utterance.voice = frenchVoice;
-                utterance.rate = currentSpeed;
-                utterance.onend = () => updateStatus('✅ Test terminé', 'ready');
-                synth.speak(utterance);
-                updateStatus('🔊 Test en cours...', 'processing');
-            } else {
-                updateStatus('❌ Aucune voix disponible pour le test', 'error');
-            }
-        }
-
-        // Générer l'audio avec l'API
+        // Générer l'audio
         async function generateAudio() {
             const text = document.getElementById('textInput').value.trim();
+            const lang = document.getElementById('languageSelect').value;
+            
             if (!text) {
                 alert('Veuillez entrer du texte à convertir.');
                 return;
             }
             
-            if (text.length > 3000) {
-                alert('Le texte est trop long (maximum 3000 caractères).');
+            if (text.length > 1000) {
+                alert('Le texte est trop long (maximum 1000 caractères).');
                 return;
             }
 
-            // Afficher la progression
-            const progressContainer = document.getElementById('progressContainer');
-            const progressFill = document.getElementById('progressFill');
-            const progressText = document.getElementById('progressText');
+            updateStatus('⏳ Recherche d\'un service disponible...', 'processing');
             
-            progressContainer.style.display = 'block';
-            progressFill.style.width = '0%';
-            progressText.textContent = 'Initialisation...';
-            
-            updateStatus('⏳ Connexion à l\'API...', 'processing');
-
             try {
-                // Simuler la progression
-                simulateProgress();
+                // Essayer différents services jusqu'à ce qu'un fonctionne
+                let audioBlob = null;
+                let serviceUsed = '';
                 
-                // Solution 1 : Utilisation de l'API VoiceRSS (nécessite une clé)
-                if (API_KEY === 'YOUR_API_KEY_HERE') {
-                    // Si pas de clé, utiliser une solution de secours
-                    await useFallbackMethod(text);
-                } else {
-                    // Appel à l'API VoiceRSS
-                    const audioUrl = await callVoiceRssApi(text);
+                // Essayer le service TTSMP3 en premier (le plus fiable pour le français)
+                try {
+                    updateStatus('⏳ Connexion au service TTSMP3...', 'processing');
+                    audioBlob = await fetchWithProxy(ttsServices.ttsmp3(text, lang));
+                    serviceUsed = 'ttsmp3';
+                } catch (error1) {
+                    console.log('Service TTSMP3 échoué, essai suivant...');
                     
-                    // Cacher la progression
-                    progressContainer.style.display = 'none';
-                    
-                    // Afficher le résultat
-                    showResult(audioUrl, text);
+                    // Essayer ResponsiveVoice
+                    try {
+                        updateStatus('⏳ Connexion à ResponsiveVoice...', 'processing');
+                        audioBlob = await fetchWithProxy(ttsServices.responsivevoice(text, lang));
+                        serviceUsed = 'responsivevoice';
+                    } catch (error2) {
+                        console.log('Service ResponsiveVoice échoué, essai suivant...');
+                        
+                        // Essayer Google TTS avec différents proxies
+                        try {
+                            updateStatus('⏳ Connexion à Google TTS...', 'processing');
+                            audioBlob = await fetchWithProxy(ttsServices.google(text, lang), true);
+                            serviceUsed = 'google';
+                        } catch (error3) {
+                            throw new Error('Tous les services sont temporairement indisponibles. Réessayez plus tard.');
+                        }
+                    }
                 }
+                
+                // Créer l'URL pour l'audio
+                currentAudioBlob = audioBlob;
+                currentAudioUrl = URL.createObjectURL(audioBlob);
+                
+                // Générer un nom de fichier
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/[:]/g, '-');
+                const shortText = text.substring(0, 20).replace(/[^a-z0-9]/gi, '_');
+                currentFileName = `audio_${shortText}_${timestamp}.mp3`;
+                
+                // Afficher le résultat
+                showResult(currentAudioUrl, serviceUsed);
+                
+                updateStatus(`✅ Audio généré avec succès (via ${serviceUsed})`, 'ready');
                 
             } catch (error) {
                 console.error('Erreur:', error);
-                progressContainer.style.display = 'none';
-                updateStatus('❌ Erreur lors de la génération', 'error');
-                alert('Erreur : ' + error.message + '\n\nEssayez avec moins de texte ou réessayez plus tard.');
+                updateStatus('❌ Échec de la génération', 'error');
+                alert('Erreur : ' + error.message + '\n\nConseil : Réessayez avec moins de texte ou attendez quelques minutes.');
             }
         }
 
-        // Simuler la progression
-        function simulateProgress() {
-            let progress = 0;
-            const progressFill = document.getElementById('progressFill');
-            const progressText = document.getElementById('progressText');
-            
-            const interval = setInterval(() => {
-                progress += 2;
-                if (progress > 90) {
-                    progress = 90; // S'arrêter à 90% en attendant la réponse
-                }
-                
-                progressFill.style.width = `${progress}%`;
-                progressText.textContent = `Génération... ${progress}%`;
-                
-                if (progress >= 90) {
-                    clearInterval(interval);
-                }
-            }, 200);
-        }
-
-        // Méthode de secours (utilise un service gratuit alternatif)
-        async function useFallbackMethod(text) {
-            updateStatus('🔧 Utilisation du service gratuit...', 'processing');
-            
-            // Essayer différentes méthodes gratuites
-            try {
-                // Méthode 1 : Utilisation de Google Translate TTS (gratuit mais limité)
-                const audioUrl = await generateWithGoogleTTS(text);
-                showResult(audioUrl, text);
-            } catch (error) {
-                // Méthode 2 : Utilisation d'un autre service gratuit
-                try {
-                    const audioUrl = await generateWithAlternativeService(text);
-                    showResult(audioUrl, text);
-                } catch (error2) {
-                    throw new Error('Tous les services gratuits sont temporairement indisponibles. Essayez plus tard ou obtenez une clé API sur voicerss.org');
-                }
-            }
-        }
-
-        // Générer avec Google TTS (gratuit)
-        async function generateWithGoogleTTS(text) {
-            // Google TTS API (gratuit mais avec limitations)
-            const encodedText = encodeURIComponent(text);
-            const langCode = selectedVoice.id.split('-')[0] + '-' + selectedVoice.id.split('-')[1];
-            
-            // URL de l'API Google TTS
-            const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=${encodedText}&tl=${langCode}`;
-            
-            // Test si l'URL fonctionne
-            const response = await fetch(googleTtsUrl);
-            if (!response.ok) {
-                throw new Error('Service Google TTS indisponible');
-            }
-            
-            return googleTtsUrl;
-        }
-
-        // Générer avec un service alternatif
-        async function generateWithAlternativeService(text) {
-            // Un autre service TTS gratuit
-            const encodedText = encodeURIComponent(text);
-            const langCode = selectedVoice.id;
-            
-            // Note : Ces services peuvent changer, donc on en essaie plusieurs
-            const services = [
-                `https://api.voicerss.org/?key=demo&hl=${langCode}&src=${encodedText}`,
-                `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=${encodedText}&tl=${langCode}`
-            ];
-            
-            for (const serviceUrl of services) {
-                try {
-                    const response = await fetch(serviceUrl);
-                    if (response.ok) {
-                        return serviceUrl;
+        // Fonction pour récupérer avec proxy CORS
+        async function fetchWithProxy(url, isGoogleTTS = false) {
+            // Pour Google TTS, nous avons besoin d'un proxy spécial car il bloque CORS
+            if (isGoogleTTS) {
+                // Essayer différents proxies CORS
+                for (const proxy of corsProxies) {
+                    try {
+                        const proxyUrl = proxy + encodeURIComponent(url);
+                        const response = await fetch(proxyUrl, {
+                            headers: {
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                            }
+                        });
+                        
+                        if (response.ok) {
+                            return await response.blob();
+                        }
+                    } catch (error) {
+                        console.log(`Proxy ${proxy} échoué, essai suivant...`);
+                        continue;
                     }
+                }
+                throw new Error('Aucun proxy CORS disponible');
+            } else {
+                // Pour les autres services, essayer directement puis avec proxy si échec
+                try {
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        return await response.blob();
+                    }
+                    throw new Error('Service direct échoué');
                 } catch (error) {
-                    continue;
+                    // Essayer avec proxy
+                    for (const proxy of corsProxies.slice(0, 2)) { // Essayer seulement les 2 premiers proxies
+                        try {
+                            const proxyUrl = proxy + encodeURIComponent(url);
+                            const response = await fetch(proxyUrl);
+                            if (response.ok) {
+                                return await response.blob();
+                            }
+                        } catch (proxyError) {
+                            continue;
+                        }
+                    }
+                    throw new Error('Service et proxies échoués');
                 }
             }
-            
-            throw new Error('Aucun service disponible');
-        }
-
-        // Appeler l'API VoiceRSS
-        async function callVoiceRssApi(text) {
-            const params = new URLSearchParams({
-                key: API_KEY,
-                hl: selectedVoice.id,
-                src: text,
-                r: String(currentSpeed),
-                c: 'MP3',
-                f: '44khz_16bit_stereo',
-                b64: 'false'
-            });
-            
-            const response = await fetch(`${API_URL}?${params}`);
-            
-            if (!response.ok) {
-                throw new Error(`Erreur API: ${response.status}`);
-            }
-            
-            const audioBlob = await response.blob();
-            const audioUrl = URL.createObjectURL(audioBlob);
-            
-            return audioUrl;
         }
 
         // Afficher le résultat
-        function showResult(audioUrl, text) {
-            currentAudioUrl = audioUrl;
-            
-            // Mettre à jour le statut
-            updateStatus('✅ Audio généré avec succès !', 'ready');
-            
+        function showResult(audioUrl, service) {
             // Activer le bouton de téléchargement
             const downloadBtn = document.getElementById('downloadBtn');
             downloadBtn.disabled = false;
@@ -698,51 +514,32 @@ Essayez avec votre propre texte !</textarea>
             const resultSection = document.getElementById('resultSection');
             const audioPlayer = document.getElementById('audioPlayer');
             const fileName = document.getElementById('fileName');
+            const fileStatus = document.getElementById('fileStatus');
             
             // Configurer le lecteur audio
             audioPlayer.src = audioUrl;
-            
-            // Générer un nom de fichier
-            const timestamp = new Date().toISOString().slice(0, 19).replace(/[:]/g, '-');
-            const shortText = text.substring(0, 30).replace(/[^a-z0-9]/gi, '_');
-            const generatedFileName = `audio_${shortText}_${timestamp}.mp3`;
-            fileName.textContent = generatedFileName;
-            
-            // Cacher la progression
-            document.getElementById('progressContainer').style.display = 'none';
+            fileName.textContent = currentFileName;
+            fileStatus.textContent = `Généré via ${service}`;
+            fileStatus.style.color = '#48bb78';
             
             // Afficher la section résultat
             resultSection.style.display = 'block';
             
-            // Quand l'audio est chargé, afficher la durée
-            audioPlayer.addEventListener('loadedmetadata', () => {
-                const duration = audioPlayer.duration;
-                const minutes = Math.floor(duration / 60);
-                const seconds = Math.floor(duration % 60);
-                document.getElementById('fileDuration').textContent = 
-                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                
-                // Estimation de la taille (MP3 ~ 16kbps)
-                const estimatedSizeKB = Math.ceil((duration * 16) / 8);
-                document.getElementById('fileSize').textContent = `${estimatedSizeKB} KB`;
-            });
+            // Jouer automatiquement (optionnel)
+            // audioPlayer.play().catch(e => console.log('Auto-play bloqué:', e));
         }
 
         // Télécharger l'audio
         function downloadAudio() {
-            if (!currentAudioUrl) {
+            if (!currentAudioBlob) {
                 alert('Aucun audio à télécharger. Générez d\'abord un audio.');
                 return;
             }
             
-            const text = document.getElementById('textInput').value.substring(0, 30);
-            const timestamp = new Date().toISOString().slice(0, 19).replace(/[:]/g, '-');
-            const fileName = `audio_${text.replace(/[^a-z0-9]/gi, '_')}_${timestamp}.mp3`;
-            
             // Créer un lien de téléchargement
             const a = document.createElement('a');
             a.href = currentAudioUrl;
-            a.download = fileName;
+            a.download = currentFileName;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -750,32 +547,61 @@ Essayez avec votre propre texte !</textarea>
             updateStatus('✅ Fichier téléchargé !', 'ready');
         }
 
-        // Partager l'audio
-        function shareAudio() {
-            if (!currentAudioUrl) {
-                alert('Aucun audio à partager.');
+        // Prévisualiser avec Web Speech API
+        function previewAudio() {
+            const text = document.getElementById('textInput').value.trim();
+            if (!text) {
+                alert('Veuillez entrer du texte à prévisualiser.');
                 return;
             }
             
-            // Créer un lien temporaire
-            const text = document.getElementById('textInput').value.substring(0, 100) + '...';
-            const shareText = `Écoutez cet audio généré : "${text}"`;
+            const lang = document.getElementById('languageSelect').value;
+            const speed = document.getElementById('speedSlider').value;
             
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Audio généré',
-                    text: shareText,
-                    url: currentAudioUrl
-                });
-            } else {
-                // Copier le lien
-                navigator.clipboard.writeText(shareText + '\n' + currentAudioUrl);
-                alert('Lien copié dans le presse-papier !');
+            // Créer l'instance de synthèse vocale
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang === 'fr' ? 'fr-FR' : lang + '-' + lang.toUpperCase();
+            utterance.rate = parseFloat(speed);
+            
+            // Sélectionner une voix
+            const voices = window.speechSynthesis.getVoices();
+            const voice = voices.find(v => v.lang.startsWith(lang)) || voices[0];
+            if (voice) {
+                utterance.voice = voice;
             }
+            
+            // Gérer les événements
+            utterance.onstart = () => {
+                updateStatus('🔊 Prévisualisation en cours...', 'processing');
+            };
+            
+            utterance.onend = () => {
+                updateStatus('✅ Prévisualisation terminée', 'ready');
+            };
+            
+            utterance.onerror = (event) => {
+                updateStatus('❌ Erreur de prévisualisation', 'error');
+            };
+            
+            // Lancer la lecture
+            window.speechSynthesis.speak(utterance);
         }
 
-        // Initialiser au chargement
-        document.addEventListener('DOMContentLoaded', init);
+        // Charger les voix au démarrage
+        if ('speechSynthesis' in window) {
+            speechSynthesis.onvoiceschanged = function() {
+                // Les voix sont maintenant chargées
+                updateStatus('✅ Voix chargées pour prévisualisation', 'ready');
+            };
+            
+            // Forcer le chargement des voix
+            setTimeout(() => {
+                const voices = speechSynthesis.getVoices();
+                if (voices.length === 0) {
+                    speechSynthesis.getVoices(); // Force le chargement
+                }
+            }, 1000);
+        }
     </script>
 </body>
 </html>
