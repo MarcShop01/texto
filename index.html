@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Synthèse Vocale Homme Naturelle</title>
+    <title>Convertisseur Texte-Voix Naturelle avec VoiceRSS</title>
     <style>
         * {
             margin: 0;
@@ -13,407 +13,426 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
             min-height: 100vh;
             padding: 20px;
-            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: rgba(25, 25, 40, 0.9);
+            max-width: 1000px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-            overflow: hidden;
-            border: 1px solid #2d4059;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            margin-top: 20px;
+            margin-bottom: 40px;
         }
 
         header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
-            color: white;
-            padding: 30px;
             text-align: center;
-            border-bottom: 2px solid #2d4059;
+            margin-bottom: 30px;
         }
 
-        header h1 {
-            font-size: 2.5em;
+        h1 {
+            color: #2c3e50;
             margin-bottom: 10px;
-            color: #4d96ff;
-            text-shadow: 0 2px 10px rgba(77, 150, 255, 0.3);
+            font-size: 2.8rem;
+            background: linear-gradient(90deg, #1a2a6c, #b21f1f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
-        main {
-            padding: 30px;
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
         }
 
-        .api-section {
-            background: rgba(13, 27, 42, 0.9);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            border-left: 5px solid #4d96ff;
+        .input-section, .controls-section, .voices-section, .apikey-section {
+            margin-bottom: 30px;
         }
 
-        .api-section h3 {
-            color: #4d96ff;
+        h2 {
+            color: #34495e;
             margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ecf0f1;
         }
 
-        .api-input {
+        .api-container {
             display: flex;
-            gap: 10px;
-            margin: 15px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
         }
 
-        .api-input input {
+        .api-input-group {
             flex: 1;
+            min-width: 300px;
+        }
+
+        .api-input-group input {
+            width: 100%;
             padding: 12px 15px;
-            border: 2px solid #2d4059;
+            border: 2px solid #ddd;
             border-radius: 8px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            transition: all 0.3s;
+            font-size: 1rem;
+            transition: border-color 0.3s;
         }
 
-        .api-input input:focus {
+        .api-input-group input:focus {
             outline: none;
-            border-color: #4d96ff;
-            background: rgba(255, 255, 255, 0.15);
+            border-color: #3498db;
         }
 
-        .api-input button {
-            background: linear-gradient(135deg, #4d96ff 0%, #357ae8 100%);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
+        .api-note {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
         }
 
-        .api-input button:hover {
-            background: linear-gradient(135deg, #357ae8 0%, #2b6cd3 100%);
-            transform: translateY(-2px);
+        .api-note a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .api-note a:hover {
+            text-decoration: underline;
         }
 
         textarea {
             width: 100%;
             min-height: 200px;
             padding: 20px;
-            border: 2px solid #2d4059;
+            border: 2px solid #ddd;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 1.1rem;
             line-height: 1.6;
             resize: vertical;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            transition: all 0.3s;
+            transition: border-color 0.3s;
         }
 
         textarea:focus {
             outline: none;
-            border-color: #4d96ff;
-            background: rgba(255, 255, 255, 0.1);
+            border-color: #3498db;
         }
 
-        .char-count {
-            text-align: right;
-            color: #8da1b8;
-            margin-bottom: 20px;
-            font-size: 0.9em;
-        }
-
-        .voice-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .voice-option {
-            background: rgba(45, 64, 89, 0.5);
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid #2d4059;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .voice-option:hover {
-            border-color: #4d96ff;
-            transform: translateY(-3px);
-            background: rgba(45, 64, 89, 0.8);
-        }
-
-        .voice-option.active {
-            background: linear-gradient(135deg, #4d96ff 0%, #2d4059 100%);
-            border-color: #4d96ff;
-            box-shadow: 0 5px 15px rgba(77, 150, 255, 0.3);
-        }
-
-        .voice-option .icon {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #4d96ff;
-        }
-
-        .voice-option.active .icon {
-            color: white;
-        }
-
-        .voice-option h4 {
-            margin-bottom: 5px;
-            color: #e1e8f0;
-        }
-
-        .voice-option p {
-            font-size: 0.9em;
-            color: #8da1b8;
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
         }
 
         .controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-            padding: 20px;
-            background: rgba(13, 27, 42, 0.5);
-            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            flex: 1;
+            min-width: 200px;
         }
 
-        .control-group label {
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
             font-weight: 600;
-            color: #e1e8f0;
+        }
+
+        .slider-container {
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        select, input[type="range"] {
-            padding: 10px;
-            border: 2px solid #2d4059;
-            border-radius: 8px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            cursor: pointer;
-        }
-
-        select:focus, input[type="range"]:focus {
-            outline: none;
-            border-color: #4d96ff;
+            gap: 10px;
         }
 
         input[type="range"] {
-            -webkit-appearance: none;
+            flex: 1;
             height: 8px;
-            background: #2d4059;
+            -webkit-appearance: none;
+            background: #ddd;
             border-radius: 4px;
+            outline: none;
         }
 
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #4d96ff;
+            width: 22px;
+            height: 22px;
+            background: #3498db;
             border-radius: 50%;
             cursor: pointer;
-            border: 2px solid white;
         }
 
-        .range-value {
+        .value-display {
+            min-width: 40px;
             text-align: center;
-            font-size: 0.9em;
-            color: #8da1b8;
-            margin-top: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .voices-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .voice-option {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .voice-option:hover {
+            border-color: #3498db;
+            background-color: #f8f9fa;
+        }
+
+        .voice-option.selected {
+            border-color: #2ecc71;
+            background-color: #e8f6f3;
+        }
+
+        .voice-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .voice-lang {
+            color: #7f8c8d;
+            font-size: 0.9rem;
         }
 
         .buttons {
             display: flex;
-            gap: 15px;
-            margin: 30px 0;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
             flex-wrap: wrap;
         }
 
-        .btn {
+        button {
             padding: 15px 30px;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: all 0.3s;
-            flex: 1;
-            min-width: 180px;
+            min-width: 200px;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #4d96ff 0%, #357ae8 100%);
+        .play-btn {
+            background: linear-gradient(90deg, #2ecc71, #1abc9c);
             color: white;
         }
 
-        .btn-success {
-            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
-            color: white;
-        }
-
-        .btn-warning {
-            background: linear-gradient(135deg, #fdcb6e 0%, #f9a825 100%);
-            color: #333;
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #e17055 0%, #d63031 100%);
-            color: white;
-        }
-
-        .btn:hover {
+        .play-btn:hover {
+            background: linear-gradient(90deg, #27ae60, #16a085);
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
         }
 
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+        .stop-btn {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            color: white;
         }
 
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 40px;
-            background: rgba(13, 27, 42, 0.8);
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 2px solid #4d96ff;
+        .stop-btn:hover {
+            background: linear-gradient(90deg, #c0392b, #a93226);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
         }
 
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top: 4px solid #4d96ff;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+        .pause-btn {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: white;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .pause-btn:hover {
+            background: linear-gradient(90deg, #2980b9, #1c5a7d);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
         }
 
-        .result {
-            display: none;
-            background: rgba(13, 27, 42, 0.8);
-            padding: 25px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 5px solid #00b894;
+        .reset-btn {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            color: white;
         }
 
-        .result h3 {
-            color: #00b894;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        audio {
-            width: 100%;
-            margin: 15px 0;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .download-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #2d4059;
+        .reset-btn:hover {
+            background: linear-gradient(90deg, #e67e22, #d35400);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
         }
 
         .download-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
             color: white;
-            padding: 15px 30px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
         }
 
         .download-btn:hover {
-            background: linear-gradient(135deg, #00a085 0%, #008b74 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
+            background: linear-gradient(90deg, #8e44ad, #7d3c98);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
         }
 
-        .file-info {
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            min-height: 60px;
             display: flex;
-            gap: 20px;
-            margin-top: 15px;
-            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
         }
 
-        .info-item {
-            background: rgba(45, 64, 89, 0.5);
-            padding: 10px 15px;
-            border-radius: 6px;
-            border-left: 3px solid #4d96ff;
-            color: #e1e8f0;
+        .status.ready {
+            background-color: #e8f6f3;
+            color: #27ae60;
+        }
+
+        .status.speaking {
+            background-color: #ebf5fb;
+            color: #2980b9;
+        }
+
+        .status.paused {
+            background-color: #fef9e7;
+            color: #f39c12;
+        }
+
+        .status.stopped {
+            background-color: #fbebee;
+            color: #e74c3c;
+        }
+
+        .status.processing {
+            background-color: #f4ecf7;
+            color: #9b59b6;
+        }
+
+        .example-text {
+            margin-top: 10px;
+            font-style: italic;
+            color: #7f8c8d;
+            cursor: pointer;
+            text-decoration: underline;
+            display: inline-block;
+        }
+
+        .example-text:hover {
+            color: #3498db;
+        }
+
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            padding-left: 20px;
+            color: #555;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
         }
 
         footer {
-            background: rgba(13, 27, 42, 0.9);
-            color: #8da1b8;
             text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-            border-top: 1px solid #2d4059;
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .engine-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .engine-option {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .engine-option:hover {
+            border-color: #3498db;
+            background-color: #f0f8ff;
+        }
+
+        .engine-option.selected {
+            border-color: #2ecc71;
+            background-color: #e8f6f3;
+        }
+
+        .hidden {
+            display: none;
         }
 
         @media (max-width: 768px) {
             .container {
-                border-radius: 10px;
+                padding: 20px;
             }
             
-            .buttons {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .controls {
                 flex-direction: column;
             }
             
-            .btn {
-                width: 100%;
+            .voice-option, .api-input-group {
+                min-width: 100%;
             }
             
-            .api-input {
-                flex-direction: column;
-            }
-            
-            .voice-options {
-                grid-template-columns: 1fr;
+            button {
+                min-width: 100%;
             }
         }
     </style>
@@ -421,556 +440,671 @@
 <body>
     <div class="container">
         <header>
-            <h1>🎙️ Synthèse Vocale Homme Naturelle</h1>
-            <p>Texte → Voix d'homme → Téléchargement MP3</p>
+            <h1>Convertisseur Texte-Voix Naturelle</h1>
+            <p class="subtitle">Transformez votre texte en parole naturelle avec téléchargement MP3 et support VoiceRSS</p>
         </header>
 
-        <main>
-            <!-- Section API -->
-            <div class="api-section">
-                <h3>🔑 Configuration API</h3>
-                <p>Pour générer des voix d'homme naturelles, utilisez cette clé de démonstration.</p>
-                <p>Pour votre propre clé : <a href="https://www.voicerss.org" target="_blank" style="color: #4d96ff;">voicerss.org</a></p>
-                
-                <div class="api-input">
-                    <input type="text" id="apiKey" placeholder="Votre clé API VoiceRSS" value="9e8d84a1562443d898dd84917ff45f1b">
-                    <button onclick="saveApiKey()">💾 Sauvegarder</button>
+        <section class="apikey-section">
+            <h2>Configuration VoiceRSS</h2>
+            <div class="engine-selector">
+                <div class="engine-option selected" id="engineBrowser">Moteur Navigateur</div>
+                <div class="engine-option" id="engineVoiceRSS">VoiceRSS (Téléchargement MP3)</div>
+            </div>
+            
+            <div id="voiceRSSConfig" class="hidden">
+                <div class="api-container">
+                    <div class="api-input-group">
+                        <label for="apiKey">Clé API VoiceRSS</label>
+                        <input type="text" id="apiKey" placeholder="Entrez votre clé API VoiceRSS">
+                    </div>
                 </div>
-                <p id="apiStatus" style="margin-top: 10px; padding: 10px; background: rgba(77, 150, 255, 0.1); border-radius: 5px;">
-                    ✅ Utilisation de la clé de démonstration avec voix d'homme
+                <p class="api-note">
+                    Obtenez une clé API gratuite sur <a href="https://www.voicerss.org/" target="_blank">VoiceRSS.org</a>. 
+                    La version gratuite offre 350 requêtes par jour avec une limite de 100kb par requête.
                 </p>
             </div>
+        </section>
 
-            <!-- Zone de texte -->
-            <div>
-                <textarea id="textInput" placeholder="Écrivez votre texte ici... (max 300 caractères pour une meilleure qualité)">Bonjour, je suis une voix d'homme naturelle. Contrairement aux synthèses vocales traditionnelles, ma voix sonne comme celle d'un vrai homme. J'ai un timbre grave et chaleureux, idéal pour des présentations professionnelles, des podcasts ou tout autre contenu audio nécessitant une voix d'homme authentique.</textarea>
-                <div class="char-count">
-                    Caractères: <span id="charCount">0</span> | Recommandé: moins de 300 caractères
-                </div>
+        <section class="input-section">
+            <h2>Texte à convertir</h2>
+            <textarea id="textInput" placeholder="Écrivez ou collez votre texte ici...">Bonjour ! Je suis votre assistant vocal. Je peux lire votre texte avec une voix naturelle, en respectant parfaitement la ponctuation : les virgules, les points, les points d'interrogation et d'exclamation.
+
+Cette technologie utilise l'API de synthèse vocale de votre navigateur ou VoiceRSS. Vous pouvez ajuster la vitesse, le volume et choisir parmi différentes voix disponibles.
+
+Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour l'utiliser hors ligne.</textarea>
+            <div class="stats">
+                <span id="charCount">0 caractères</span>
+                <span id="wordCount">0 mots</span>
+                <span id="sentenceCount">0 phrases</span>
+                <span id="audioSize">0 KB</span>
             </div>
+            <p class="example-text" id="loadExample">Charger un exemple de texte avec ponctuation</p>
+        </section>
 
-            <!-- Sélection de voix d'homme -->
-            <div>
-                <h3 style="color: #e1e8f0; margin-bottom: 15px;">🎯 Sélectionnez votre voix d'homme :</h3>
-                <div class="voice-options">
-                    <div class="voice-option active" onclick="selectVoice('homme_profond')">
-                        <div class="icon">🎙️</div>
-                        <h4>Homme Profond</h4>
-                        <p>Voix grave d'homme mûr</p>
-                    </div>
-                    <div class="voice-option" onclick="selectVoice('homme_chaleureux')">
-                        <div class="icon">🔥</div>
-                        <h4>Homme Chaleureux</h4>
-                        <p>Ton amical et engageant</p>
-                    </div>
-                    <div class="voice-option" onclick="selectVoice('homme_professionnel')">
-                        <div class="icon">💼</div>
-                        <h4>Homme Professionnel</h4>
-                        <p>Clair et articulé</p>
-                    </div>
-                    <div class="voice-option" onclick="selectVoice('homme_jeune')">
-                        <div class="icon">👨‍💼</div>
-                        <h4>Homme Jeune</h4>
-                        <p>Énergique et moderne</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contrôles -->
+        <section class="controls-section">
+            <h2>Paramètres de la voix</h2>
             <div class="controls">
                 <div class="control-group">
-                    <label for="language">🌍 Langue :</label>
-                    <select id="language">
-                        <option value="fr-ca">Français Canadien (homme)</option>
-                        <option value="fr-fr">Français France (homme)</option>
-                        <option value="en-us">Anglais Américain (man)</option>
-                        <option value="en-gb">Anglais Britannique (man)</option>
-                    </select>
+                    <label for="rate">Vitesse de parole</label>
+                    <div class="slider-container">
+                        <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1">
+                        <span class="value-display" id="rateValue">1.0</span>
+                    </div>
                 </div>
-
                 <div class="control-group">
-                    <label for="speed">⚡ Vitesse :</label>
-                    <input type="range" id="speed" min="0.7" max="1.3" step="0.1" value="1.0">
-                    <div class="range-value" id="speedValue">Normale (1.0)</div>
+                    <label for="pitch">Ton de la voix</label>
+                    <div class="slider-container">
+                        <input type="range" id="pitch" min="0.5" max="2" step="0.1" value="1">
+                        <span class="value-display" id="pitchValue">1.0</span>
+                    </div>
                 </div>
-
                 <div class="control-group">
-                    <label for="format">🎵 Format :</label>
-                    <select id="format">
-                        <option value="mp3">MP3 (recommandé)</option>
-                        <option value="wav">WAV</option>
-                        <option value="ogg">OGG</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Boutons -->
-            <div class="buttons">
-                <button id="previewBtn" class="btn-primary">▶️ Écouter l'aperçu</button>
-                <button id="generateBtn" class="btn-success">🎵 Générer Audio Homme</button>
-                <button id="downloadBtn" class="btn-warning" disabled>⬇️ Télécharger MP3</button>
-                <button id="clearBtn" class="btn-danger">🗑️ Effacer</button>
-            </div>
-
-            <!-- Chargement -->
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>Génération de la voix d'homme en cours...</p>
-                <p><small>Création d'un fichier audio haute qualité</small></p>
-            </div>
-
-            <!-- Résultat -->
-            <div class="result" id="result">
-                <h3>✅ Audio Homme Généré !</h3>
-                <p>Écoutez votre texte avec une voix d'homme naturelle :</p>
-                <audio id="audioPlayer" controls></audio>
-                
-                <div class="download-section">
-                    <p><strong>Télécharger votre fichier audio :</strong></p>
-                    <a href="#" id="downloadLink" class="download-btn">
-                        <span>⬇️</span>
-                        <span>Télécharger le MP3</span>
-                        <span id="fileSize">(0 KB)</span>
-                    </a>
-                    
-                    <div class="file-info">
-                        <div class="info-item">
-                            <strong>Voix :</strong> <span id="voiceInfo">Homme Profond</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Taille :</strong> <span id="sizeInfo">0 KB</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Durée :</strong> <span id="durationInfo">~0 secondes</span>
-                        </div>
+                    <label for="volume">Volume</label>
+                    <div class="slider-container">
+                        <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
+                        <span class="value-display" id="volumeValue">1.0</span>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Instructions -->
-            <div style="background: rgba(13, 27, 42, 0.5); padding: 25px; border-radius: 10px; margin-top: 30px; border-left: 5px solid #4d96ff;">
-                <h3 style="color: #4d96ff; margin-bottom: 15px;">📋 Guide pour une voix d'homme parfaite :</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-                    <div style="background: rgba(45, 64, 89, 0.5); padding: 15px; border-radius: 8px;">
-                        <h4 style="color: #4d96ff;">1. Choisissez "Français Canadien"</h4>
-                        <p>Cette langue a les meilleures voix d'homme</p>
-                    </div>
-                    <div style="background: rgba(45, 64, 89, 0.5); padding: 15px; border-radius: 8px;">
-                        <h4 style="color: #4d96ff;">2. Sélectionnez "Homme Profond"</h4>
-                        <p>Pour le timbre le plus masculin</p>
-                    </div>
-                    <div style="background: rgba(45, 64, 89, 0.5); padding: 15px; border-radius: 8px;">
-                        <h4 style="color: #4d96ff;">3. Limitez à 300 caractères</h4>
-                        <p>Pour une qualité audio optimale</p>
-                    </div>
-                </div>
+        <section class="voices-section">
+            <h2>Sélectionnez une voix</h2>
+            <p id="voicesLoading">Chargement des voix disponibles...</p>
+            <div class="voices-container" id="voicesContainer">
+                <!-- Les options de voix seront ajoutées dynamiquement -->
             </div>
-        </main>
+        </section>
 
-        <footer>
-            <p>Synthèse Vocale avec Voix d'Homme Naturelle | Utilise VoiceRSS API</p>
-        </footer>
+        <div class="buttons">
+            <button id="playBtn" class="play-btn">
+                <span>▶ Lire le texte</span>
+            </button>
+            <button id="pauseBtn" class="pause-btn" disabled>
+                <span>⏸ Pause</span>
+            </button>
+            <button id="resumeBtn" class="pause-btn" disabled>
+                <span>▶ Reprendre</span>
+            </button>
+            <button id="stopBtn" class="stop-btn" disabled>
+                <span>⏹ Arrêter</span>
+            </button>
+            <button id="downloadBtn" class="download-btn" disabled>
+                <span>⬇ Télécharger MP3</span>
+            </button>
+            <button id="resetBtn" class="reset-btn">
+                <span>↺ Réinitialiser</span>
+            </button>
+        </div>
+
+        <div class="status ready" id="status">
+            Prêt à convertir le texte en voix
+        </div>
+
+        <div class="instructions">
+            <h3>Instructions d'utilisation</h3>
+            <ul>
+                <li><strong>Étape 1 :</strong> Choisissez entre le moteur navigateur (gratuit) ou VoiceRSS (nécessite une clé API)</li>
+                <li><strong>Étape 2 :</strong> Saisissez ou collez votre texte dans la zone de texte</li>
+                <li><strong>Étape 3 :</strong> Ajustez les paramètres (vitesse, ton, volume) selon vos préférences</li>
+                <li><strong>Étape 4 :</strong> Sélectionnez une voix parmi celles disponibles</li>
+                <li><strong>Étape 5 :</strong> Cliquez sur "Lire le texte" pour démarrer la synthèse vocale</li>
+                <li><strong>Étape 6 :</strong> Avec VoiceRSS, utilisez "Télécharger MP3" pour sauvegarder l'audio</li>
+                <li><strong>Note :</strong> VoiceRSS permet le téléchargement mais nécessite une clé API gratuite</li>
+            </ul>
+        </div>
     </div>
 
+    <footer>
+        <p>Outil de synthèse vocale avec support VoiceRSS - Compatible avec les navigateurs modernes</p>
+    </footer>
+
     <script>
-        // ============================================
-        // CONFIGURATION
-        // ============================================
-
-        // Clé API de démonstration (avec support voix homme)
-        const DEMO_API_KEY = "9e8d84a1562443d898dd84917ff45f1b";
-
-        // Configuration des voix homme
-        const HOMME_VOICE_CONFIGS = {
-            'homme_profond': {
-                language: 'fr-ca',
-                speed: -3,
-                pitch: -4,
-                name: 'Homme Profond'
-            },
-            'homme_chaleureux': {
-                language: 'fr-ca',
-                speed: 0,
-                pitch: -2,
-                name: 'Homme Chaleureux'
-            },
-            'homme_professionnel': {
-                language: 'en-us',
-                speed: -2,
-                pitch: -3,
-                name: 'Homme Professionnel'
-            },
-            'homme_jeune': {
-                language: 'en-us',
-                speed: 1,
-                pitch: -1,
-                name: 'Homme Jeune'
-            }
-        };
-
         // Éléments DOM
-        const elements = {
-            textInput: document.getElementById('textInput'),
-            apiKeyInput: document.getElementById('apiKey'),
-            apiStatus: document.getElementById('apiStatus'),
-            language: document.getElementById('language'),
-            speed: document.getElementById('speed'),
-            speedValue: document.getElementById('speedValue'),
-            format: document.getElementById('format'),
-            previewBtn: document.getElementById('previewBtn'),
-            generateBtn: document.getElementById('generateBtn'),
-            downloadBtn: document.getElementById('downloadBtn'),
-            clearBtn: document.getElementById('clearBtn'),
-            charCount: document.getElementById('charCount'),
-            loading: document.getElementById('loading'),
-            result: document.getElementById('result'),
-            audioPlayer: document.getElementById('audioPlayer'),
-            downloadLink: document.getElementById('downloadLink'),
-            fileSize: document.getElementById('fileSize'),
-            voiceInfo: document.getElementById('voiceInfo'),
-            sizeInfo: document.getElementById('sizeInfo'),
-            durationInfo: document.getElementById('durationInfo')
-        };
+        const textInput = document.getElementById('textInput');
+        const charCount = document.getElementById('charCount');
+        const wordCount = document.getElementById('wordCount');
+        const sentenceCount = document.getElementById('sentenceCount');
+        const audioSize = document.getElementById('audioSize');
+        const rateSlider = document.getElementById('rate');
+        const rateValue = document.getElementById('rateValue');
+        const pitchSlider = document.getElementById('pitch');
+        const pitchValue = document.getElementById('pitchValue');
+        const volumeSlider = document.getElementById('volume');
+        const volumeValue = document.getElementById('volumeValue');
+        const voicesContainer = document.getElementById('voicesContainer');
+        const voicesLoading = document.getElementById('voicesLoading');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const resumeBtn = document.getElementById('resumeBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const status = document.getElementById('status');
+        const loadExample = document.getElementById('loadExample');
+        const apiKeyInput = document.getElementById('apiKey');
+        const voiceRSSConfig = document.getElementById('voiceRSSConfig');
+        const engineBrowser = document.getElementById('engineBrowser');
+        const engineVoiceRSS = document.getElementById('engineVoiceRSS');
 
         // Variables globales
-        let currentAudioBlob = null;
-        let currentAudioUrl = null;
-        let userApiKey = null;
-        let selectedVoiceType = 'homme_profond';
-        let speechSynthesis = window.speechSynthesis;
+        let synth = window.speechSynthesis;
+        let voices = [];
+        let selectedVoice = null;
+        let isPlaying = false;
+        let isPaused = false;
+        let currentUtterance = null;
+        let audioBlob = null;
+        let audioUrl = null;
+        let currentEngine = 'browser'; // 'browser' ou 'voicerss'
+        let audioElement = null;
 
-        // ============================================
-        // INITIALISATION
-        // ============================================
-
-        // Initialiser le compteur
-        updateCharCount();
-        elements.textInput.addEventListener('input', updateCharCount);
-
-        // Initialiser le slider de vitesse
-        elements.speed.addEventListener('input', updateSpeedValue);
-
-        // Charger la clé API sauvegardée
-        loadSavedApiKey();
-
-        // ============================================
-        // FONCTIONS UTILITAIRES
-        // ============================================
-
-        function updateCharCount() {
-            const count = elements.textInput.value.length;
-            elements.charCount.textContent = count;
-            
-            if (count > 300) {
-                elements.charCount.style.color = '#e17055';
-                elements.charCount.innerHTML = `${count} <span style="color: #8da1b8">(trop long, réduire)</span>`;
-            } else if (count > 200) {
-                elements.charCount.style.color = '#fdcb6e';
-            } else {
-                elements.charCount.style.color = '#00b894';
-            }
-        }
-
-        function updateSpeedValue() {
-            const value = parseFloat(elements.speed.value);
-            let label = '';
-            if (value < 0.9) label = 'Lente';
-            else if (value > 1.1) label = 'Rapide';
-            else label = 'Normale';
-            elements.speedValue.textContent = `${label} (${value.toFixed(1)})`;
-        }
-
-        function selectVoice(voiceId) {
-            // Mettre à jour l'interface
-            document.querySelectorAll('.voice-option').forEach(preset => {
-                preset.classList.remove('active');
-            });
-            event.currentTarget.classList.add('active');
-            
-            selectedVoiceType = voiceId;
-            
-            // Ajuster automatiquement la langue pour cette voix
-            const voiceConfig = HOMME_VOICE_CONFIGS[voiceId];
-            if (voiceConfig) {
-                elements.language.value = voiceConfig.language;
-            }
-            
-            // Mettre à jour le nom de la voix
-            updateVoiceInfo();
-        }
-
-        function updateVoiceInfo() {
-            const voiceConfig = HOMME_VOICE_CONFIGS[selectedVoiceType];
-            elements.voiceInfo.textContent = voiceConfig.name;
-        }
-
-        function saveApiKey() {
-            const key = elements.apiKeyInput.value.trim();
-            if (key) {
-                localStorage.setItem('voiceRssApiKey', key);
-                userApiKey = key;
-                elements.apiStatus.textContent = '✅ Clé API personnelle sauvegardée';
-                elements.apiStatus.style.background = 'rgba(0, 184, 148, 0.1)';
-                alert('Clé API sauvegardée !');
-            } else {
-                alert('Veuillez entrer une clé API valide');
-            }
-        }
-
-        function loadSavedApiKey() {
-            const savedKey = localStorage.getItem('voiceRssApiKey');
-            if (savedKey) {
-                elements.apiKeyInput.value = savedKey;
-                userApiKey = savedKey;
-                elements.apiStatus.textContent = '✅ Utilisation de votre clé API personnelle';
-                elements.apiStatus.style.background = 'rgba(0, 184, 148, 0.1)';
-            } else {
-                userApiKey = DEMO_API_KEY;
-                elements.apiStatus.textContent = '✅ Utilisation de la clé de démonstration avec voix d\'homme';
-                elements.apiStatus.style.background = 'rgba(77, 150, 255, 0.1)';
-            }
-        }
-
-        // ============================================
-        // FONCTIONS PRINCIPALES
-        // ============================================
-
-        // Pré-écouter avec le navigateur
-        elements.previewBtn.addEventListener('click', function() {
-            const text = elements.textInput.value.trim();
-            if (!text) {
-                alert('Veuillez entrer du texte d\'abord');
-                return;
-            }
-
-            if (text.length > 500) {
-                if (!confirm('Le texte est long. Continuer ?')) {
-                    return;
-                }
-            }
-
-            // Arrêter toute lecture en cours
-            speechSynthesis.cancel();
-
-            const utterance = new SpeechSynthesisUtterance(text.substring(0, 300));
-            utterance.rate = parseFloat(elements.speed.value);
-            
-            // Essayer de trouver une voix homme
-            const voices = speechSynthesis.getVoices();
-            const hommeVoice = voices.find(voice => 
-                voice.lang.includes('fr') && 
-                (voice.name.toLowerCase().includes('homme') ||
-                 voice.name.toLowerCase().includes('male') ||
-                 voice.name.toLowerCase().includes('man'))
-            );
-
-            if (hommeVoice) {
-                utterance.voice = hommeVoice;
-                console.log('Utilisation de la voix homme:', hommeVoice.name);
-            }
-
-            this.disabled = true;
-            this.textContent = '🔊 Lecture...';
-
-            utterance.onend = () => {
-                this.disabled = false;
-                this.textContent = '▶️ Écouter l\'aperçu';
-            };
-
-            utterance.onerror = (error) => {
-                console.error('Erreur de lecture:', error);
-                this.disabled = false;
-                this.textContent = '▶️ Écouter l\'aperçu';
-                alert('Erreur de lecture. Générez l\'audio MP3 à la place.');
-            };
-
-            speechSynthesis.speak(utterance);
+        // Configuration des moteurs
+        engineBrowser.addEventListener('click', () => {
+            engineBrowser.classList.add('selected');
+            engineVoiceRSS.classList.remove('selected');
+            voiceRSSConfig.classList.add('hidden');
+            currentEngine = 'browser';
+            updateButtons();
+            status.textContent = 'Moteur navigateur activé';
+            status.className = 'status ready';
         });
 
-        // Générer l'audio MP3 avec voix homme
-        elements.generateBtn.addEventListener('click', async function() {
-            const text = elements.textInput.value.trim();
+        engineVoiceRSS.addEventListener('click', () => {
+            engineBrowser.classList.remove('selected');
+            engineVoiceRSS.classList.add('selected');
+            voiceRSSConfig.classList.remove('hidden');
+            currentEngine = 'voicerss';
+            updateButtons();
+            status.textContent = 'VoiceRSS activé - Entrez votre clé API';
+            status.className = 'status ready';
+        });
+
+        // Mettre à jour les statistiques du texte
+        function updateTextStats() {
+            const text = textInput.value;
+            const charCountValue = text.length;
+            const wordCountValue = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
             
-            if (!text) {
-                alert('Veuillez entrer du texte d\'abord');
+            // Compter les phrases (séparées par . ! ?)
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            const sentenceCountValue = sentences.length;
+            
+            // Estimation de la taille audio (approximative)
+            const estimatedAudioSize = Math.round(charCountValue * 0.05); // Estimation approximative en KB
+            
+            charCount.textContent = `${charCountValue} caractères`;
+            wordCount.textContent = `${wordCountValue} mots`;
+            sentenceCount.textContent = `${sentenceCountValue} phrases`;
+            audioSize.textContent = `${estimatedAudioSize} KB estimés`;
+        }
+
+        // Mettre à jour l'affichage des valeurs des sliders
+        rateSlider.addEventListener('input', () => {
+            rateValue.textContent = rateSlider.value;
+        });
+
+        pitchSlider.addEventListener('input', () => {
+            pitchValue.textContent = pitchSlider.value;
+        });
+
+        volumeSlider.addEventListener('input', () => {
+            volumeValue.textContent = volumeSlider.value;
+        });
+
+        // Charger les voix disponibles pour le navigateur
+        function loadVoices() {
+            voices = synth.getVoices();
+            voicesLoading.style.display = 'none';
+            voicesContainer.innerHTML = '';
+            
+            // Filtrer pour obtenir principalement des voix en français
+            const frenchVoices = voices.filter(voice => 
+                voice.lang.startsWith('fr') || 
+                voice.lang.startsWith('en') || 
+                voice.name.toLowerCase().includes('french')
+            );
+            
+            // Si pas de voix en français, montrer toutes les voix
+            const voicesToShow = frenchVoices.length > 0 ? frenchVoices : voices;
+            
+            if (voicesToShow.length === 0) {
+                voicesContainer.innerHTML = '<p>Aucune voix disponible. Votre navigateur peut ne pas supporter la synthèse vocale.</p>';
                 return;
             }
-
-            if (text.length > 500) {
-                alert('Texte trop long. Veuillez réduire à 500 caractères maximum.');
-                return;
-            }
-
-            // Utiliser la clé API
-            const apiKey = userApiKey || DEMO_API_KEY;
             
-            // Afficher le chargement
-            elements.loading.style.display = 'block';
-            elements.result.style.display = 'none';
-            this.disabled = true;
-            this.textContent = '⏳ Génération...';
-
-            try {
-                // Générer avec VoiceRSS (configuration pour voix homme)
-                const audioBlob = await generateHommeVoiceWithVoiceRSS(text, apiKey);
-                
-                // Créer l'URL pour l'audio
-                if (currentAudioUrl) {
-                    URL.revokeObjectURL(currentAudioUrl);
+            // Trier les voix par langue
+            voicesToShow.sort((a, b) => {
+                if (a.lang < b.lang) return -1;
+                if (a.lang > b.lang) return 1;
+                return 0;
+            });
+            
+            // Créer les options de voix
+            voicesToShow.forEach((voice, index) => {
+                const voiceOption = document.createElement('div');
+                voiceOption.className = 'voice-option';
+                if (index === 0) {
+                    voiceOption.classList.add('selected');
+                    selectedVoice = voice;
                 }
-                currentAudioUrl = URL.createObjectURL(audioBlob);
-                currentAudioBlob = audioBlob;
                 
-                // Configurer le lecteur audio
-                elements.audioPlayer.src = currentAudioUrl;
+                voiceOption.innerHTML = `
+                    <div class="voice-name">${voice.name}</div>
+                    <div class="voice-lang">${voice.lang} - ${voice.localService ? 'Locale' : 'Réseau'}</div>
+                `;
                 
-                // Mettre à jour les informations
-                const fileSize = (audioBlob.size / 1024).toFixed(1);
-                const estimatedDuration = Math.ceil(text.length / 12);
+                voiceOption.addEventListener('click', () => {
+                    // Retirer la sélection de toutes les voix
+                    document.querySelectorAll('.voice-option').forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    
+                    // Ajouter la sélection à la voix choisie
+                    voiceOption.classList.add('selected');
+                    selectedVoice = voice;
+                });
                 
-                elements.fileSize.textContent = `(${fileSize} KB)`;
-                elements.sizeInfo.textContent = `${fileSize} KB`;
-                elements.durationInfo.textContent = `${estimatedDuration} secondes`;
+                voicesContainer.appendChild(voiceOption);
+            });
+        }
+
+        // Initialiser les voix du navigateur
+        if (synth.onvoiceschanged !== undefined) {
+            synth.onvoiceschanged = loadVoices;
+        }
+
+        // Charger les voix au démarrage
+        loadVoices();
+
+        // Mettre à jour les stats du texte au chargement et à chaque modification
+        textInput.addEventListener('input', updateTextStats);
+        updateTextStats();
+
+        // Utiliser VoiceRSS pour la synthèse vocale
+        async function speakWithVoiceRSS() {
+            const text = textInput.value.trim();
+            const apiKey = apiKeyInput.value.trim();
+            
+            if (!apiKey) {
+                alert('Veuillez entrer votre clé API VoiceRSS.');
+                return;
+            }
+            
+            if (text === '') {
+                alert('Veuillez saisir du texte à lire.');
+                return;
+            }
+            
+            // Désactiver les boutons pendant le traitement
+            playBtn.disabled = true;
+            status.textContent = 'Génération de l\'audio en cours...';
+            status.className = 'status processing';
+            
+            try {
+                // Préparer les paramètres pour VoiceRSS
+                const params = new URLSearchParams({
+                    key: apiKey,
+                    src: text,
+                    hl: 'fr-fr', // Langue française
+                    v: 'Louis',  // Voix masculine française (Louis)
+                    r: rateSlider.value, // Vitesse
+                    c: 'MP3',    // Format audio
+                    f: '44khz_16bit_stereo', // Qualité audio
+                    ssml: 'false',
+                    b64: 'true'  // Retourner l'audio en base64
+                });
                 
-                // Configurer le lien de téléchargement
-                elements.downloadLink.href = currentAudioUrl;
-                elements.downloadLink.download = `voix-homme-${new Date().toISOString().slice(0,10)}.mp3`;
-                elements.downloadLink.onclick = function(e) {
-                    setTimeout(() => {
-                        URL.revokeObjectURL(currentAudioUrl);
-                    }, 100);
+                // Appeler l'API VoiceRSS
+                const response = await fetch(`https://api.voicerss.org/?${params.toString()}`);
+                
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
+                
+                const audioData = await response.text();
+                
+                // Vérifier si une erreur est retournée par l'API
+                if (audioData.startsWith('ERROR')) {
+                    throw new Error(`VoiceRSS: ${audioData}`);
+                }
+                
+                // Convertir la réponse base64 en Blob
+                const byteCharacters = atob(audioData);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                audioBlob = new Blob([byteArray], { type: 'audio/mp3' });
+                
+                // Créer une URL pour le Blob
+                if (audioUrl) {
+                    URL.revokeObjectURL(audioUrl);
+                }
+                audioUrl = URL.createObjectURL(audioBlob);
+                
+                // Créer ou réutiliser un élément audio
+                if (!audioElement) {
+                    audioElement = new Audio();
+                }
+                
+                audioElement.src = audioUrl;
+                audioElement.volume = parseFloat(volumeSlider.value);
+                
+                // Configurer les événements de l'élément audio
+                audioElement.onplay = () => {
+                    isPlaying = true;
+                    isPaused = false;
+                    updateButtons();
+                    status.textContent = 'Lecture en cours...';
+                    status.className = 'status speaking';
+                };
+                
+                audioElement.onpause = () => {
+                    isPaused = true;
+                    updateButtons();
+                    status.textContent = 'Lecture en pause';
+                    status.className = 'status paused';
+                };
+                
+                audioElement.onended = () => {
+                    isPlaying = false;
+                    isPaused = false;
+                    updateButtons();
+                    status.textContent = 'Lecture terminée - Prêt à télécharger';
+                    status.className = 'status ready';
+                };
+                
+                audioElement.onerror = (error) => {
+                    console.error('Erreur audio:', error);
+                    isPlaying = false;
+                    isPaused = false;
+                    updateButtons();
+                    status.textContent = 'Erreur lors de la lecture audio';
+                    status.className = 'status stopped';
+                    playBtn.disabled = false;
                 };
                 
                 // Activer le bouton de téléchargement
-                elements.downloadBtn.disabled = false;
-                elements.downloadBtn.onclick = () => {
-                    const link = document.createElement('a');
-                    link.href = currentAudioUrl;
-                    link.download = `voix-homme-${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.mp3`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                };
+                downloadBtn.disabled = false;
                 
-                // Afficher le résultat
-                elements.loading.style.display = 'none';
-                elements.result.style.display = 'block';
-                
-                // Jouer automatiquement
-                setTimeout(() => {
-                    elements.audioPlayer.play().catch(e => {
-                        console.log("Cliquez sur play pour écouter");
-                    });
-                }, 1000);
+                // Démarrer la lecture
+                await audioElement.play();
+                playBtn.disabled = false;
                 
             } catch (error) {
-                console.error('Erreur:', error);
-                elements.loading.style.display = 'none';
-                this.disabled = false;
-                this.textContent = '🎵 Générer Audio Homme';
-                
-                alert(`Erreur : ${error.message}\n\nVeuillez vérifier votre connexion internet et réessayer.`);
+                console.error('Erreur VoiceRSS:', error);
+                alert(`Erreur lors de la génération audio: ${error.message}`);
+                status.textContent = 'Erreur lors de la génération audio';
+                status.className = 'status stopped';
+                playBtn.disabled = false;
+            }
+        }
+
+        // Utiliser la synthèse vocale du navigateur
+        function speakWithBrowser() {
+            const text = textInput.value.trim();
+            if (text === '') {
+                alert('Veuillez saisir du texte à lire.');
+                return;
+            }
+            
+            if (!selectedVoice) {
+                alert('Aucune voix sélectionnée. Veuillez choisir une voix.');
+                return;
+            }
+            
+            // Arrêter toute lecture en cours
+            if (currentUtterance) {
+                synth.cancel();
+            }
+            
+            // Désactiver le bouton de téléchargement pour le navigateur
+            downloadBtn.disabled = true;
+            
+            // Créer une nouvelle utterance
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            
+            // Configurer l'utterance
+            currentUtterance.voice = selectedVoice;
+            currentUtterance.rate = parseFloat(rateSlider.value);
+            currentUtterance.pitch = parseFloat(pitchSlider.value);
+            currentUtterance.volume = parseFloat(volumeSlider.value);
+            
+            // Gérer les événements
+            currentUtterance.onstart = () => {
+                isPlaying = true;
+                isPaused = false;
+                updateButtons();
+                status.textContent = 'Lecture en cours...';
+                status.className = 'status speaking';
+            };
+            
+            currentUtterance.onend = () => {
+                isPlaying = false;
+                isPaused = false;
+                updateButtons();
+                status.textContent = 'Lecture terminée';
+                status.className = 'status ready';
+            };
+            
+            currentUtterance.onerror = (event) => {
+                console.error('Erreur de synthèse vocale:', event);
+                isPlaying = false;
+                isPaused = false;
+                updateButtons();
+                status.textContent = 'Erreur lors de la lecture';
+                status.className = 'status stopped';
+            };
+            
+            currentUtterance.onpause = () => {
+                isPaused = true;
+                updateButtons();
+                status.textContent = 'Lecture en pause';
+                status.className = 'status paused';
+            };
+            
+            currentUtterance.onresume = () => {
+                isPaused = false;
+                updateButtons();
+                status.textContent = 'Reprise de la lecture';
+                status.className = 'status speaking';
+            };
+            
+            // Démarrer la synthèse
+            synth.speak(currentUtterance);
+        }
+
+        // Gérer la lecture du texte
+        playBtn.addEventListener('click', () => {
+            if (isPlaying && !isPaused) {
+                return;
+            }
+            
+            if (currentEngine === 'voicerss') {
+                speakWithVoiceRSS();
+            } else {
+                speakWithBrowser();
             }
         });
 
-        // Fonction pour générer avec VoiceRSS (configuration homme)
-        async function generateHommeVoiceWithVoiceRSS(text, apiKey) {
-            return new Promise((resolve, reject) => {
-                // Configuration pour voix homme
-                const voiceConfig = HOMME_VOICE_CONFIGS[selectedVoiceType];
-                const speed = parseFloat(elements.speed.value);
-                
-                // Convertir la vitesse (0.7-1.3) à -10 à 10 pour VoiceRSS
-                const speedParam = Math.round((speed - 0.7) * (20/0.6)) - 10;
-                
-                // Ajuster la vitesse selon la configuration homme
-                const finalSpeed = speedParam + voiceConfig.speed;
-                
-                // Limiter les valeurs
-                const limitedSpeed = Math.max(-10, Math.min(10, finalSpeed));
-                
-                // Paramètres optimisés pour voix homme
-                const params = {
-                    key: apiKey,
-                    src: text.substring(0, 300), // Limiter pour qualité
-                    hl: voiceConfig.language, // Utiliser la langue de la configuration homme
-                    r: limitedSpeed, // Vitesse ajustée pour voix homme
-                    c: elements.format.value,
-                    f: '44khz_16bit_stereo',
-                    ssml: 'false',
-                    b64: 'false'
-                };
-                
-                // Construire l'URL
-                const queryString = Object.keys(params)
-                    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
-                    .join('&');
-                
-                const apiUrl = `https://api.voicerss.org/?${queryString}`;
-                
-                console.log('Génération avec configuration homme:', voiceConfig.name);
-                console.log('Paramètres:', { language: voiceConfig.language, speed: limitedSpeed });
-                
-                // Timeout
-                const timeout = setTimeout(() => {
-                    reject(new Error('Délai dépassé. L\'API est lente.'));
-                }, 15000);
-                
-                // Télécharger l'audio
-                fetch(apiUrl)
-                    .then(response => {
-                        clearTimeout(timeout);
-                        if (!response.ok) {
-                            throw new Error(`Erreur API: ${response.status}`);
-                        }
-                        return response.blob();
-                    })
-                    .then(blob => {
-                        if (blob.size < 100) {
-                            throw new Error('Fichier audio invalide');
-                        }
-                        resolve(blob);
-                    })
-                    .catch(error => {
-                        clearTimeout(timeout);
-                        reject(new Error(`Échec de génération: ${error.message}`));
-                    });
-            });
-        }
-
-        // Effacer le texte
-        elements.clearBtn.addEventListener('click', function() {
-            elements.textInput.value = '';
-            updateCharCount();
-            elements.textInput.focus();
+        // Gérer la pause
+        pauseBtn.addEventListener('click', () => {
+            if (currentEngine === 'voicerss') {
+                if (audioElement && isPlaying && !isPaused) {
+                    audioElement.pause();
+                    isPaused = true;
+                    updateButtons();
+                    status.textContent = 'Lecture en pause';
+                    status.className = 'status paused';
+                }
+            } else {
+                if (isPlaying && !isPaused) {
+                    synth.pause();
+                    isPaused = true;
+                    updateButtons();
+                    status.textContent = 'Lecture en pause';
+                    status.className = 'status paused';
+                }
+            }
         });
 
-        // ============================================
-        // INITIALISATION FINALE
-        // ============================================
+        // Gérer la reprise
+        resumeBtn.addEventListener('click', () => {
+            if (currentEngine === 'voicerss') {
+                if (audioElement && isPlaying && isPaused) {
+                    audioElement.play();
+                    isPaused = false;
+                    updateButtons();
+                    status.textContent = 'Reprise de la lecture';
+                    status.className = 'status speaking';
+                }
+            } else {
+                if (isPlaying && isPaused) {
+                    synth.resume();
+                    isPaused = false;
+                    updateButtons();
+                    status.textContent = 'Reprise de la lecture';
+                    status.className = 'status speaking';
+                }
+            }
+        });
 
-        // Initialiser la valeur du slider
-        updateSpeedValue();
-        
-        // Initialiser le nom de la voix
-        updateVoiceInfo();
+        // Gérer l'arrêt
+        stopBtn.addEventListener('click', () => {
+            if (currentEngine === 'voicerss') {
+                if (audioElement) {
+                    audioElement.pause();
+                    audioElement.currentTime = 0;
+                }
+                isPlaying = false;
+                isPaused = false;
+                updateButtons();
+                status.textContent = 'Lecture arrêtée';
+                status.className = 'status stopped';
+            } else {
+                synth.cancel();
+                isPlaying = false;
+                isPaused = false;
+                updateButtons();
+                status.textContent = 'Lecture arrêtée';
+                status.className = 'status stopped';
+            }
+        });
 
-        // Message de bienvenue
-        console.log(`
-        ========================================
-        SYNTHÈSE VOCALE - VOIX HOMME
-        ========================================
-        Cette version est configurée uniquement pour
-        générer des voix d'homme naturelles.
-        
-        Configuration recommandée :
-        • Langue: Français Canadien (fr-ca)
-        • Voix: "Homme Profond"
-        • Limite: 300 caractères
-        
-        Bonne utilisation !
-        ========================================
-        `);
+        // Gérer le téléchargement
+        downloadBtn.addEventListener('click', () => {
+            if (!audioBlob) {
+                alert('Aucun fichier audio à télécharger. Veuillez d\'abord générer l\'audio.');
+                return;
+            }
+            
+            // Créer un lien de téléchargement
+            const downloadLink = document.createElement('a');
+            downloadLink.href = audioUrl;
+            
+            // Générer un nom de fichier basé sur le contenu
+            const text = textInput.value.trim().substring(0, 50).replace(/[^a-z0-9]/gi, '_');
+            const timestamp = new Date().toISOString().slice(0, 19).replace(/[:.]/g, '-');
+            downloadLink.download = `synthèse_vocale_${text}_${timestamp}.mp3`;
+            
+            // Déclencher le téléchargement
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            
+            status.textContent = 'Téléchargement démarré';
+            setTimeout(() => {
+                status.textContent = 'Prêt à convertir le texte en voix';
+                status.className = 'status ready';
+            }, 2000);
+        });
+
+        // Gérer la réinitialisation
+        resetBtn.addEventListener('click', () => {
+            if (currentEngine === 'voicerss') {
+                if (audioElement) {
+                    audioElement.pause();
+                    audioElement.currentTime = 0;
+                }
+                if (audioUrl) {
+                    URL.revokeObjectURL(audioUrl);
+                    audioUrl = null;
+                }
+                audioBlob = null;
+            } else {
+                synth.cancel();
+            }
+            
+            isPlaying = false;
+            isPaused = false;
+            
+            // Réinitialiser les sliders
+            rateSlider.value = 1;
+            rateValue.textContent = '1.0';
+            pitchSlider.value = 1;
+            pitchValue.textContent = '1.0';
+            volumeSlider.value = 1;
+            volumeValue.textContent = '1.0';
+            
+            // Réinitialiser le texte
+            textInput.value = '';
+            updateTextStats();
+            
+            // Réinitialiser la sélection de voix
+            if (voices.length > 0 && currentEngine === 'browser') {
+                document.querySelectorAll('.voice-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                document.querySelector('.voice-option').classList.add('selected');
+                selectedVoice = voices[0];
+            }
+            
+            // Désactiver le bouton de téléchargement
+            downloadBtn.disabled = true;
+            
+            updateButtons();
+            status.textContent = 'Prêt à convertir le texte en voix';
+            status.className = 'status ready';
+        });
+
+        // Mettre à jour l'état des boutons
+        function updateButtons() {
+            const isVoiceRSS = currentEngine === 'voicerss';
+            
+            playBtn.disabled = (isPlaying && !isPaused) || (isVoiceRSS && !apiKeyInput.value.trim());
+            pauseBtn.disabled = !isPlaying || isPaused;
+            resumeBtn.disabled = !isPlaying || !isPaused;
+            stopBtn.disabled = !isPlaying;
+            
+            // Le bouton de téléchargement n'est disponible que pour VoiceRSS avec un audio généré
+            if (isVoiceRSS) {
+                downloadBtn.disabled = !audioBlob;
+            } else {
+                downloadBtn.disabled = true;
+            }
+        }
+
+        // Charger un exemple de texte
+        loadExample.addEventListener('click', () => {
+            textInput.value = `La synthèse vocale, ou text-to-speech (TTS), est une technologie qui convertit le texte en parole artificielle.
+
+Cette technologie est utilisée dans de nombreux domaines : assistance aux personnes malvoyantes, navigation GPS, assistants vocaux, et bien plus encore.
+
+Le respect de la ponctuation est essentiel pour une lecture naturelle. Par exemple, une virgule introduit une courte pause, un point une pause plus longue, et un point d'interrogation modifie l'intonation de la voix.
+
+Avec VoiceRSS, vous pouvez générer un fichier audio de haute qualité et le télécharger au format MP3 pour une utilisation hors ligne.
+
+Essayez avec votre propre texte maintenant !`;
+            updateTextStats();
+        });
+
+        // Mettre à jour l'état des boutons quand la clé API change
+        apiKeyInput.addEventListener('input', updateButtons);
+
+        // Initialiser l'état des boutons
+        updateButtons();
     </script>
 </body>
 </html>
