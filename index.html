@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Synthèse Vocale - Voix Masculine avec Téléchargement</title>
+    <title>Synthèse Vocale Homme Naturelle</title>
     <style>
         * {
             margin: 0;
@@ -13,35 +13,35 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             padding: 20px;
-            color: #333;
+            color: #fff;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
-            background: white;
+            background: rgba(25, 25, 40, 0.9);
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
             overflow: hidden;
+            border: 1px solid #2d4059;
         }
 
         header {
-            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
             color: white;
             padding: 30px;
             text-align: center;
+            border-bottom: 2px solid #2d4059;
         }
 
         header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+            color: #4d96ff;
+            text-shadow: 0 2px 10px rgba(77, 150, 255, 0.3);
         }
 
         main {
@@ -49,17 +49,19 @@
         }
 
         .api-section {
-            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
-            color: white;
+            background: rgba(13, 27, 42, 0.9);
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 25px;
-            border-left: 5px solid #5c6bc0;
+            border-left: 5px solid #4d96ff;
         }
 
         .api-section h3 {
+            color: #4d96ff;
             margin-bottom: 15px;
-            color: #bbdefb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .api-input {
@@ -71,19 +73,22 @@
         .api-input input {
             flex: 1;
             padding: 12px 15px;
-            border: 2px solid #5c6bc0;
+            border: 2px solid #2d4059;
             border-radius: 8px;
             font-size: 16px;
             background: rgba(255, 255, 255, 0.1);
             color: white;
+            transition: all 0.3s;
         }
 
-        .api-input input::placeholder {
-            color: #bbdefb;
+        .api-input input:focus {
+            outline: none;
+            border-color: #4d96ff;
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .api-input button {
-            background: linear-gradient(135deg, #3949ab 0%, #5c6bc0 100%);
+            background: linear-gradient(135deg, #4d96ff 0%, #357ae8 100%);
             color: white;
             border: none;
             padding: 12px 25px;
@@ -94,7 +99,7 @@
         }
 
         .api-input button:hover {
-            background: linear-gradient(135deg, #303f9f 0%, #3949ab 100%);
+            background: linear-gradient(135deg, #357ae8 0%, #2b6cd3 100%);
             transform: translateY(-2px);
         }
 
@@ -102,27 +107,77 @@
             width: 100%;
             min-height: 200px;
             padding: 20px;
-            border: 2px solid #ddd;
+            border: 2px solid #2d4059;
             border-radius: 10px;
             font-size: 16px;
             line-height: 1.6;
             resize: vertical;
             margin-bottom: 15px;
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
             transition: all 0.3s;
         }
 
         textarea:focus {
             outline: none;
-            border-color: #3949ab;
-            background: white;
+            border-color: #4d96ff;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .char-count {
             text-align: right;
-            color: #666;
+            color: #8da1b8;
             margin-bottom: 20px;
             font-size: 0.9em;
+        }
+
+        .voice-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .voice-option {
+            background: rgba(45, 64, 89, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #2d4059;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .voice-option:hover {
+            border-color: #4d96ff;
+            transform: translateY(-3px);
+            background: rgba(45, 64, 89, 0.8);
+        }
+
+        .voice-option.active {
+            background: linear-gradient(135deg, #4d96ff 0%, #2d4059 100%);
+            border-color: #4d96ff;
+            box-shadow: 0 5px 15px rgba(77, 150, 255, 0.3);
+        }
+
+        .voice-option .icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #4d96ff;
+        }
+
+        .voice-option.active .icon {
+            color: white;
+        }
+
+        .voice-option h4 {
+            margin-bottom: 5px;
+            color: #e1e8f0;
+        }
+
+        .voice-option p {
+            font-size: 0.9em;
+            color: #8da1b8;
         }
 
         .controls {
@@ -131,7 +186,7 @@
             gap: 20px;
             margin-bottom: 25px;
             padding: 20px;
-            background: #f5f5f5;
+            background: rgba(13, 27, 42, 0.5);
             border-radius: 10px;
         }
 
@@ -143,7 +198,7 @@
 
         .control-group label {
             font-weight: 600;
-            color: #333;
+            color: #e1e8f0;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -151,51 +206,41 @@
 
         select, input[type="range"] {
             padding: 10px;
-            border: 2px solid #ddd;
+            border: 2px solid #2d4059;
             border-radius: 8px;
             font-size: 16px;
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
             cursor: pointer;
+        }
+
+        select:focus, input[type="range"]:focus {
+            outline: none;
+            border-color: #4d96ff;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 8px;
+            background: #2d4059;
+            border-radius: 4px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #4d96ff;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
         }
 
         .range-value {
             text-align: center;
             font-size: 0.9em;
-            color: #666;
+            color: #8da1b8;
             margin-top: 5px;
-        }
-
-        .voice-presets {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .voice-preset {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid #e0e0e0;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .voice-preset:hover {
-            border-color: #3949ab;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .voice-preset.active {
-            background: linear-gradient(135deg, #3949ab 0%, #5c6bc0 100%);
-            color: white;
-            border-color: #3949ab;
-        }
-
-        .voice-preset h4 {
-            margin-bottom: 5px;
         }
 
         .buttons {
@@ -222,28 +267,28 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #3949ab 0%, #5c6bc0 100%);
+            background: linear-gradient(135deg, #4d96ff 0%, #357ae8 100%);
             color: white;
         }
 
         .btn-success {
-            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
             color: white;
         }
 
         .btn-warning {
-            background: linear-gradient(135deg, #f57c00 0%, #ff9800 100%);
-            color: white;
+            background: linear-gradient(135deg, #fdcb6e 0%, #f9a825 100%);
+            color: #333;
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, #c62828 0%, #f44336 100%);
+            background: linear-gradient(135deg, #e17055 0%, #d63031 100%);
             color: white;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
         .btn:disabled {
@@ -256,14 +301,15 @@
             display: none;
             text-align: center;
             padding: 40px;
-            background: #f5f5f5;
+            background: rgba(13, 27, 42, 0.8);
             border-radius: 10px;
             margin: 20px 0;
+            border: 2px solid #4d96ff;
         }
 
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3949ab;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #4d96ff;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -278,30 +324,39 @@
 
         .result {
             display: none;
-            background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+            background: rgba(13, 27, 42, 0.8);
             padding: 25px;
             border-radius: 10px;
             margin-top: 20px;
-            border-left: 5px solid #3949ab;
+            border-left: 5px solid #00b894;
+        }
+
+        .result h3 {
+            color: #00b894;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         audio {
             width: 100%;
             margin: 15px 0;
             border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .download-section {
             margin-top: 20px;
             padding-top: 20px;
-            border-top: 1px solid #5c6bc0;
+            border-top: 1px solid #2d4059;
         }
 
         .download-btn {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
             color: white;
             padding: 15px 30px;
             border-radius: 8px;
@@ -311,8 +366,9 @@
         }
 
         .download-btn:hover {
-            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+            background: linear-gradient(135deg, #00a085 0%, #008b74 100%);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
         }
 
         .file-info {
@@ -323,18 +379,20 @@
         }
 
         .info-item {
-            background: white;
+            background: rgba(45, 64, 89, 0.5);
             padding: 10px 15px;
             border-radius: 6px;
-            border-left: 3px solid #3949ab;
+            border-left: 3px solid #4d96ff;
+            color: #e1e8f0;
         }
 
         footer {
-            background: #1a237e;
-            color: white;
+            background: rgba(13, 27, 42, 0.9);
+            color: #8da1b8;
             text-align: center;
             padding: 20px;
             margin-top: 30px;
+            border-top: 1px solid #2d4059;
         }
 
         @media (max-width: 768px) {
@@ -354,7 +412,7 @@
                 flex-direction: column;
             }
             
-            .voice-presets {
+            .voice-options {
                 grid-template-columns: 1fr;
             }
         }
@@ -363,49 +421,57 @@
 <body>
     <div class="container">
         <header>
-            <h1>🎙️ Synthèse Vocale - Voix Masculine</h1>
-            <p>Texte → Voix Masculine Naturelle → Téléchargement MP3</p>
+            <h1>🎙️ Synthèse Vocale Homme Naturelle</h1>
+            <p>Texte → Voix d'homme → Téléchargement MP3</p>
         </header>
 
         <main>
             <!-- Section API -->
             <div class="api-section">
                 <h3>🔑 Configuration API</h3>
-                <p>Pour une voix masculine naturelle, utilisez la clé API de démonstration ci-dessous.</p>
-                <p>Pour votre propre clé : <a href="https://www.voicerss.org" target="_blank" style="color: #bbdefb; font-weight: bold;">voicerss.org</a></p>
+                <p>Pour générer des voix d'homme naturelles, utilisez cette clé de démonstration.</p>
+                <p>Pour votre propre clé : <a href="https://www.voicerss.org" target="_blank" style="color: #4d96ff;">voicerss.org</a></p>
                 
                 <div class="api-input">
                     <input type="text" id="apiKey" placeholder="Votre clé API VoiceRSS" value="9e8d84a1562443d898dd84917ff45f1b">
                     <button onclick="saveApiKey()">💾 Sauvegarder</button>
                 </div>
-                <p id="apiStatus" style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 5px;">
-                    ✅ Utilisation de la clé de démonstration avec voix masculine
+                <p id="apiStatus" style="margin-top: 10px; padding: 10px; background: rgba(77, 150, 255, 0.1); border-radius: 5px;">
+                    ✅ Utilisation de la clé de démonstration avec voix d'homme
                 </p>
             </div>
 
             <!-- Zone de texte -->
             <div>
-                <textarea id="textInput" placeholder="Écrivez votre texte ici... (max 500 caractères pour une meilleure qualité)">Bonjour, je suis une voix masculine naturelle. Contrairement aux synthèses vocales robotiques traditionnelles, ma voix sonne comme celle d'un vrai homme. J'ai un timbre grave et chaleureux, idéal pour des présentations professionnelles, des podcasts ou tout autre contenu audio nécessitant une voix masculine authentique.</textarea>
+                <textarea id="textInput" placeholder="Écrivez votre texte ici... (max 300 caractères pour une meilleure qualité)">Bonjour, je suis une voix d'homme naturelle. Contrairement aux synthèses vocales traditionnelles, ma voix sonne comme celle d'un vrai homme. J'ai un timbre grave et chaleureux, idéal pour des présentations professionnelles, des podcasts ou tout autre contenu audio nécessitant une voix d'homme authentique.</textarea>
                 <div class="char-count">
-                    Caractères: <span id="charCount">0</span> | Recommandé: moins de 500 caractères
+                    Caractères: <span id="charCount">0</span> | Recommandé: moins de 300 caractères
                 </div>
             </div>
 
-            <!-- Sélection de voix masculine -->
+            <!-- Sélection de voix d'homme -->
             <div>
-                <h3>🎯 Sélectionnez votre voix masculine :</h3>
-                <div class="voice-presets">
-                    <div class="voice-preset active" onclick="selectVoice('male_deep')">
-                        <h4>🎙️ Voix Grave</h4>
-                        <p>Timbre profond d'homme mûr</p>
+                <h3 style="color: #e1e8f0; margin-bottom: 15px;">🎯 Sélectionnez votre voix d'homme :</h3>
+                <div class="voice-options">
+                    <div class="voice-option active" onclick="selectVoice('homme_profond')">
+                        <div class="icon">🎙️</div>
+                        <h4>Homme Profond</h4>
+                        <p>Voix grave d'homme mûr</p>
                     </div>
-                    <div class="voice-preset" onclick="selectVoice('male_warm')">
-                        <h4>🔥 Voix Chaude</h4>
+                    <div class="voice-option" onclick="selectVoice('homme_chaleureux')">
+                        <div class="icon">🔥</div>
+                        <h4>Homme Chaleureux</h4>
                         <p>Ton amical et engageant</p>
                     </div>
-                    <div class="voice-preset" onclick="selectVoice('male_professional')">
-                        <h4>💼 Voix Professionnelle</h4>
-                        <p>Claire et articulée</p>
+                    <div class="voice-option" onclick="selectVoice('homme_professionnel')">
+                        <div class="icon">💼</div>
+                        <h4>Homme Professionnel</h4>
+                        <p>Clair et articulé</p>
+                    </div>
+                    <div class="voice-option" onclick="selectVoice('homme_jeune')">
+                        <div class="icon">👨‍💼</div>
+                        <h4>Homme Jeune</h4>
+                        <p>Énergique et moderne</p>
                     </div>
                 </div>
             </div>
@@ -415,10 +481,10 @@
                 <div class="control-group">
                     <label for="language">🌍 Langue :</label>
                     <select id="language">
-                        <option value="fr-ca">Français Canadien (voix masculine)</option>
-                        <option value="en-us">Anglais Américain (male voice)</option>
-                        <option value="en-gb">Anglais Britannique (male voice)</option>
-                        <option value="de-de">Allemand (männliche Stimme)</option>
+                        <option value="fr-ca">Français Canadien (homme)</option>
+                        <option value="fr-fr">Français France (homme)</option>
+                        <option value="en-us">Anglais Américain (man)</option>
+                        <option value="en-gb">Anglais Britannique (man)</option>
                     </select>
                 </div>
 
@@ -440,8 +506,8 @@
 
             <!-- Boutons -->
             <div class="buttons">
-                <button id="previewBtn" class="btn-primary">▶️ Pré-écouter</button>
-                <button id="generateBtn" class="btn-success">🎵 Générer Audio MP3</button>
+                <button id="previewBtn" class="btn-primary">▶️ Écouter l'aperçu</button>
+                <button id="generateBtn" class="btn-success">🎵 Générer Audio Homme</button>
                 <button id="downloadBtn" class="btn-warning" disabled>⬇️ Télécharger MP3</button>
                 <button id="clearBtn" class="btn-danger">🗑️ Effacer</button>
             </div>
@@ -449,13 +515,13 @@
             <!-- Chargement -->
             <div class="loading" id="loading">
                 <div class="spinner"></div>
-                <p>Génération de la voix masculine en cours...</p>
+                <p>Génération de la voix d'homme en cours...</p>
                 <p><small>Création d'un fichier audio haute qualité</small></p>
             </div>
 
             <!-- Résultat -->
             <div class="result" id="result">
-                <h3>✅ Audio Masculin Généré !</h3>
+                <h3>✅ Audio Homme Généré !</h3>
                 <p>Écoutez votre texte avec une voix d'homme naturelle :</p>
                 <audio id="audioPlayer" controls></audio>
                 
@@ -469,7 +535,7 @@
                     
                     <div class="file-info">
                         <div class="info-item">
-                            <strong>Voix :</strong> <span id="voiceInfo">Masculine - Voix Grave</span>
+                            <strong>Voix :</strong> <span id="voiceInfo">Homme Profond</span>
                         </div>
                         <div class="info-item">
                             <strong>Taille :</strong> <span id="sizeInfo">0 KB</span>
@@ -482,19 +548,19 @@
             </div>
 
             <!-- Instructions -->
-            <div style="background: #f0f4ff; padding: 25px; border-radius: 10px; margin-top: 30px; border-left: 5px solid #3949ab;">
-                <h3 style="color: #1a237e; margin-bottom: 15px;">📋 Guide pour une voix masculine parfaite :</h3>
+            <div style="background: rgba(13, 27, 42, 0.5); padding: 25px; border-radius: 10px; margin-top: 30px; border-left: 5px solid #4d96ff;">
+                <h3 style="color: #4d96ff; margin-bottom: 15px;">📋 Guide pour une voix d'homme parfaite :</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-                    <div style="background: white; padding: 15px; border-radius: 8px;">
-                        <h4 style="color: #3949ab;">1. Choisissez "Français Canadien"</h4>
-                        <p>Cette langue a les meilleures voix masculines</p>
+                    <div style="background: rgba(45, 64, 89, 0.5); padding: 15px; border-radius: 8px;">
+                        <h4 style="color: #4d96ff;">1. Choisissez "Français Canadien"</h4>
+                        <p>Cette langue a les meilleures voix d'homme</p>
                     </div>
-                    <div style="background: white; padding: 15px; border-radius: 8px;">
-                        <h4 style="color: #3949ab;">2. Sélectionnez "Voix Grave"</h4>
+                    <div style="background: rgba(45, 64, 89, 0.5); padding: 15px; border-radius: 8px;">
+                        <h4 style="color: #4d96ff;">2. Sélectionnez "Homme Profond"</h4>
                         <p>Pour le timbre le plus masculin</p>
                     </div>
-                    <div style="background: white; padding: 15px; border-radius: 8px;">
-                        <h4 style="color: #3949ab;">3. Limitez à 500 caractères</h4>
+                    <div style="background: rgba(45, 64, 89, 0.5); padding: 15px; border-radius: 8px;">
+                        <h4 style="color: #4d96ff;">3. Limitez à 300 caractères</h4>
                         <p>Pour une qualité audio optimale</p>
                     </div>
                 </div>
@@ -502,7 +568,7 @@
         </main>
 
         <footer>
-            <p>Synthèse Vocale avec Voix Masculine Naturelle | Utilise VoiceRSS API</p>
+            <p>Synthèse Vocale avec Voix d'Homme Naturelle | Utilise VoiceRSS API</p>
         </footer>
     </div>
 
@@ -511,25 +577,34 @@
         // CONFIGURATION
         // ============================================
 
-        // Clé API de démonstration (avec support voix masculine)
+        // Clé API de démonstration (avec support voix homme)
         const DEMO_API_KEY = "9e8d84a1562443d898dd84917ff45f1b";
 
-        // Configuration des voix masculines
-        const MALE_VOICE_CONFIGS = {
-            'male_deep': {
-                voice: 'fr-ca',
-                speed: -2,
-                pitch: -3
+        // Configuration des voix homme
+        const HOMME_VOICE_CONFIGS = {
+            'homme_profond': {
+                language: 'fr-ca',
+                speed: -3,
+                pitch: -4,
+                name: 'Homme Profond'
             },
-            'male_warm': {
-                voice: 'fr-ca',
+            'homme_chaleureux': {
+                language: 'fr-ca',
                 speed: 0,
-                pitch: -2
+                pitch: -2,
+                name: 'Homme Chaleureux'
             },
-            'male_professional': {
-                voice: 'en-us',
-                speed: -1,
-                pitch: -4
+            'homme_professionnel': {
+                language: 'en-us',
+                speed: -2,
+                pitch: -3,
+                name: 'Homme Professionnel'
+            },
+            'homme_jeune': {
+                language: 'en-us',
+                speed: 1,
+                pitch: -1,
+                name: 'Homme Jeune'
             }
         };
 
@@ -561,7 +636,7 @@
         let currentAudioBlob = null;
         let currentAudioUrl = null;
         let userApiKey = null;
-        let selectedVoiceType = 'male_deep';
+        let selectedVoiceType = 'homme_profond';
         let speechSynthesis = window.speechSynthesis;
 
         // ============================================
@@ -586,13 +661,13 @@
             const count = elements.textInput.value.length;
             elements.charCount.textContent = count;
             
-            if (count > 500) {
-                elements.charCount.style.color = '#f44336';
-                elements.charCount.innerHTML = `${count} <span style="color: #666">(trop long, réduire)</span>`;
-            } else if (count > 300) {
-                elements.charCount.style.color = '#ff9800';
+            if (count > 300) {
+                elements.charCount.style.color = '#e17055';
+                elements.charCount.innerHTML = `${count} <span style="color: #8da1b8">(trop long, réduire)</span>`;
+            } else if (count > 200) {
+                elements.charCount.style.color = '#fdcb6e';
             } else {
-                elements.charCount.style.color = '#4caf50';
+                elements.charCount.style.color = '#00b894';
             }
         }
 
@@ -607,7 +682,7 @@
 
         function selectVoice(voiceId) {
             // Mettre à jour l'interface
-            document.querySelectorAll('.voice-preset').forEach(preset => {
+            document.querySelectorAll('.voice-option').forEach(preset => {
                 preset.classList.remove('active');
             });
             event.currentTarget.classList.add('active');
@@ -615,10 +690,18 @@
             selectedVoiceType = voiceId;
             
             // Ajuster automatiquement la langue pour cette voix
-            const voiceConfig = MALE_VOICE_CONFIGS[voiceId];
+            const voiceConfig = HOMME_VOICE_CONFIGS[voiceId];
             if (voiceConfig) {
-                elements.language.value = voiceConfig.voice;
+                elements.language.value = voiceConfig.language;
             }
+            
+            // Mettre à jour le nom de la voix
+            updateVoiceInfo();
+        }
+
+        function updateVoiceInfo() {
+            const voiceConfig = HOMME_VOICE_CONFIGS[selectedVoiceType];
+            elements.voiceInfo.textContent = voiceConfig.name;
         }
 
         function saveApiKey() {
@@ -627,7 +710,7 @@
                 localStorage.setItem('voiceRssApiKey', key);
                 userApiKey = key;
                 elements.apiStatus.textContent = '✅ Clé API personnelle sauvegardée';
-                elements.apiStatus.style.background = 'rgba(76, 175, 80, 0.2)';
+                elements.apiStatus.style.background = 'rgba(0, 184, 148, 0.1)';
                 alert('Clé API sauvegardée !');
             } else {
                 alert('Veuillez entrer une clé API valide');
@@ -640,11 +723,11 @@
                 elements.apiKeyInput.value = savedKey;
                 userApiKey = savedKey;
                 elements.apiStatus.textContent = '✅ Utilisation de votre clé API personnelle';
-                elements.apiStatus.style.background = 'rgba(76, 175, 80, 0.2)';
+                elements.apiStatus.style.background = 'rgba(0, 184, 148, 0.1)';
             } else {
                 userApiKey = DEMO_API_KEY;
-                elements.apiStatus.textContent = '✅ Utilisation de la clé de démonstration avec voix masculine';
-                elements.apiStatus.style.background = 'rgba(33, 150, 243, 0.2)';
+                elements.apiStatus.textContent = '✅ Utilisation de la clé de démonstration avec voix d\'homme';
+                elements.apiStatus.style.background = 'rgba(77, 150, 255, 0.1)';
             }
         }
 
@@ -660,7 +743,7 @@
                 return;
             }
 
-            if (text.length > 1000) {
+            if (text.length > 500) {
                 if (!confirm('Le texte est long. Continuer ?')) {
                     return;
                 }
@@ -669,19 +752,21 @@
             // Arrêter toute lecture en cours
             speechSynthesis.cancel();
 
-            const utterance = new SpeechSynthesisUtterance(text.substring(0, 500));
+            const utterance = new SpeechSynthesisUtterance(text.substring(0, 300));
             utterance.rate = parseFloat(elements.speed.value);
             
-            // Essayer de trouver une voix masculine
+            // Essayer de trouver une voix homme
             const voices = speechSynthesis.getVoices();
-            const maleVoice = voices.find(voice => 
+            const hommeVoice = voices.find(voice => 
                 voice.lang.includes('fr') && 
-                (voice.name.toLowerCase().includes('male') || 
-                 voice.name.toLowerCase().includes('homme'))
+                (voice.name.toLowerCase().includes('homme') ||
+                 voice.name.toLowerCase().includes('male') ||
+                 voice.name.toLowerCase().includes('man'))
             );
 
-            if (maleVoice) {
-                utterance.voice = maleVoice;
+            if (hommeVoice) {
+                utterance.voice = hommeVoice;
+                console.log('Utilisation de la voix homme:', hommeVoice.name);
             }
 
             this.disabled = true;
@@ -689,19 +774,20 @@
 
             utterance.onend = () => {
                 this.disabled = false;
-                this.textContent = '▶️ Pré-écouter';
+                this.textContent = '▶️ Écouter l\'aperçu';
             };
 
-            utterance.onerror = () => {
+            utterance.onerror = (error) => {
+                console.error('Erreur de lecture:', error);
                 this.disabled = false;
-                this.textContent = '▶️ Pré-écouter';
+                this.textContent = '▶️ Écouter l\'aperçu';
                 alert('Erreur de lecture. Générez l\'audio MP3 à la place.');
             };
 
             speechSynthesis.speak(utterance);
         });
 
-        // Générer l'audio MP3 avec voix masculine
+        // Générer l'audio MP3 avec voix homme
         elements.generateBtn.addEventListener('click', async function() {
             const text = elements.textInput.value.trim();
             
@@ -710,8 +796,8 @@
                 return;
             }
 
-            if (text.length > 1000) {
-                alert('Texte trop long. Veuillez réduire à 1000 caractères maximum.');
+            if (text.length > 500) {
+                alert('Texte trop long. Veuillez réduire à 500 caractères maximum.');
                 return;
             }
 
@@ -725,8 +811,8 @@
             this.textContent = '⏳ Génération...';
 
             try {
-                // Générer avec VoiceRSS (configuration pour voix masculine)
-                const audioBlob = await generateMaleVoiceWithVoiceRSS(text, apiKey);
+                // Générer avec VoiceRSS (configuration pour voix homme)
+                const audioBlob = await generateHommeVoiceWithVoiceRSS(text, apiKey);
                 
                 // Créer l'URL pour l'audio
                 if (currentAudioUrl) {
@@ -746,17 +832,9 @@
                 elements.sizeInfo.textContent = `${fileSize} KB`;
                 elements.durationInfo.textContent = `${estimatedDuration} secondes`;
                 
-                // Mettre à jour le nom de la voix
-                const voiceNames = {
-                    'male_deep': 'Masculine - Voix Grave',
-                    'male_warm': 'Masculine - Voix Chaude',
-                    'male_professional': 'Masculine - Professionnelle'
-                };
-                elements.voiceInfo.textContent = voiceNames[selectedVoiceType];
-                
                 // Configurer le lien de téléchargement
                 elements.downloadLink.href = currentAudioUrl;
-                elements.downloadLink.download = `voix-masculine-${new Date().toISOString().slice(0,10)}.mp3`;
+                elements.downloadLink.download = `voix-homme-${new Date().toISOString().slice(0,10)}.mp3`;
                 elements.downloadLink.onclick = function(e) {
                     setTimeout(() => {
                         URL.revokeObjectURL(currentAudioUrl);
@@ -768,7 +846,7 @@
                 elements.downloadBtn.onclick = () => {
                     const link = document.createElement('a');
                     link.href = currentAudioUrl;
-                    link.download = `voix-masculine-${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.mp3`;
+                    link.download = `voix-homme-${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.mp3`;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
@@ -789,39 +867,34 @@
                 console.error('Erreur:', error);
                 elements.loading.style.display = 'none';
                 this.disabled = false;
-                this.textContent = '🎵 Générer Audio MP3';
+                this.textContent = '🎵 Générer Audio Homme';
                 
-                // Solution de secours
-                if (error.message.includes('API') || error.message.includes('VoiceRSS')) {
-                    alert('Utilisation de la méthode de secours...');
-                    try {
-                        await generateWithFallbackAPI(text);
-                    } catch (fallbackError) {
-                        alert(`Erreur : ${fallbackError.message}\n\nVeuillez réessayer avec un texte plus court.`);
-                    }
-                } else {
-                    alert(`Erreur : ${error.message}\n\nVeuillez vérifier votre connexion internet.`);
-                }
+                alert(`Erreur : ${error.message}\n\nVeuillez vérifier votre connexion internet et réessayer.`);
             }
         });
 
-        // Fonction pour générer avec VoiceRSS (configuration masculine)
-        async function generateMaleVoiceWithVoiceRSS(text, apiKey) {
+        // Fonction pour générer avec VoiceRSS (configuration homme)
+        async function generateHommeVoiceWithVoiceRSS(text, apiKey) {
             return new Promise((resolve, reject) => {
-                // Configuration pour voix masculine
-                const voiceConfig = MALE_VOICE_CONFIGS[selectedVoiceType];
-                const language = elements.language.value;
+                // Configuration pour voix homme
+                const voiceConfig = HOMME_VOICE_CONFIGS[selectedVoiceType];
                 const speed = parseFloat(elements.speed.value);
                 
                 // Convertir la vitesse (0.7-1.3) à -10 à 10 pour VoiceRSS
                 const speedParam = Math.round((speed - 0.7) * (20/0.6)) - 10;
                 
-                // Paramètres optimisés pour voix masculine
+                // Ajuster la vitesse selon la configuration homme
+                const finalSpeed = speedParam + voiceConfig.speed;
+                
+                // Limiter les valeurs
+                const limitedSpeed = Math.max(-10, Math.min(10, finalSpeed));
+                
+                // Paramètres optimisés pour voix homme
                 const params = {
                     key: apiKey,
-                    src: text.substring(0, 500), // Limiter pour qualité
-                    hl: language, // Utiliser la langue sélectionnée
-                    r: speedParam + voiceConfig.speed, // Ajuster avec la configuration
+                    src: text.substring(0, 300), // Limiter pour qualité
+                    hl: voiceConfig.language, // Utiliser la langue de la configuration homme
+                    r: limitedSpeed, // Vitesse ajustée pour voix homme
                     c: elements.format.value,
                     f: '44khz_16bit_stereo',
                     ssml: 'false',
@@ -835,7 +908,8 @@
                 
                 const apiUrl = `https://api.voicerss.org/?${queryString}`;
                 
-                console.log('Génération avec configuration masculine:', voiceConfig);
+                console.log('Génération avec configuration homme:', voiceConfig.name);
+                console.log('Paramètres:', { language: voiceConfig.language, speed: limitedSpeed });
                 
                 // Timeout
                 const timeout = setTimeout(() => {
@@ -864,35 +938,6 @@
             });
         }
 
-        // Solution de secours
-        async function generateWithFallbackAPI(text) {
-            const limitedText = text.substring(0, 300);
-            
-            // Utiliser l'API Google Translate TTS (alternative gratuite)
-            const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=fr&client=tw-ob&q=${encodeURIComponent(limitedText)}`;
-            
-            const response = await fetch(url, {
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-                }
-            });
-            
-            if (!response.ok) throw new Error('API de secours échouée');
-            
-            const blob = await response.blob();
-            
-            // Mettre à jour l'interface
-            if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
-            currentAudioUrl = URL.createObjectURL(blob);
-            currentAudioBlob = blob;
-            
-            elements.audioPlayer.src = currentAudioUrl;
-            elements.result.style.display = 'block';
-            elements.downloadBtn.disabled = false;
-            
-            alert('Audio généré avec méthode de secours (qualité réduite).');
-        }
-
         // Effacer le texte
         elements.clearBtn.addEventListener('click', function() {
             elements.textInput.value = '';
@@ -906,19 +951,22 @@
 
         // Initialiser la valeur du slider
         updateSpeedValue();
+        
+        // Initialiser le nom de la voix
+        updateVoiceInfo();
 
         // Message de bienvenue
         console.log(`
         ========================================
-        SYNTHÈSE VOCALE - VOIX MASCULINE
+        SYNTHÈSE VOCALE - VOIX HOMME
         ========================================
-        Cette version est configurée pour générer
-        des voix masculines naturelles.
+        Cette version est configurée uniquement pour
+        générer des voix d'homme naturelles.
         
         Configuration recommandée :
         • Langue: Français Canadien (fr-ca)
-        • Voix: "Voix Grave"
-        • Limite: 500 caractères
+        • Voix: "Homme Profond"
+        • Limite: 300 caractères
         
         Bonne utilisation !
         ========================================
