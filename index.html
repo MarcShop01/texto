@@ -129,6 +129,14 @@
             margin-top: 10px;
             color: #7f8c8d;
             font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .stats span {
+            background-color: #f8f9fa;
+            padding: 4px 10px;
+            border-radius: 20px;
         }
 
         .controls {
@@ -414,6 +422,24 @@
             display: none;
         }
 
+        .error-message {
+            background-color: #fbebee;
+            color: #e74c3c;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .success-message {
+            background-color: #e8f6f3;
+            color: #27ae60;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -455,12 +481,12 @@
                 <div class="api-container">
                     <div class="api-input-group">
                         <label for="apiKey">Clé API VoiceRSS</label>
-                        <input type="text" id="apiKey" placeholder="Entrez votre clé API VoiceRSS">
+                        <input type="text" id="apiKey" placeholder="Entrez votre clé API VoiceRSS" value="a14541231b764962942cac8697f2ca29">
                     </div>
                 </div>
                 <p class="api-note">
-                    Obtenez une clé API gratuite sur <a href="https://www.voicerss.org/" target="_blank">VoiceRSS.org</a>. 
-                    La version gratuite offre 350 requêtes par jour avec une limite de 100kb par requête.
+                    <strong>✅ Votre clé API est déjà configurée !</strong> La version gratuite offre 350 requêtes par jour avec une limite de 100kb par requête.
+                    Obtenez une nouvelle clé sur <a href="https://www.voicerss.org/" target="_blank">VoiceRSS.org</a> si nécessaire.
                 </p>
             </div>
         </section>
@@ -541,6 +567,8 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             Prêt à convertir le texte en voix
         </div>
 
+        <div id="apiMessage"></div>
+
         <div class="instructions">
             <h3>Instructions d'utilisation</h3>
             <ul>
@@ -550,7 +578,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                 <li><strong>Étape 4 :</strong> Sélectionnez une voix parmi celles disponibles</li>
                 <li><strong>Étape 5 :</strong> Cliquez sur "Lire le texte" pour démarrer la synthèse vocale</li>
                 <li><strong>Étape 6 :</strong> Avec VoiceRSS, utilisez "Télécharger MP3" pour sauvegarder l'audio</li>
-                <li><strong>Note :</strong> VoiceRSS permet le téléchargement mais nécessite une clé API gratuite</li>
+                <li><strong>Note :</strong> VoiceRSS permet le téléchargement mais nécessite une clé API gratuite (déjà configurée)</li>
             </ul>
         </div>
     </div>
@@ -586,6 +614,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
         const voiceRSSConfig = document.getElementById('voiceRSSConfig');
         const engineBrowser = document.getElementById('engineBrowser');
         const engineVoiceRSS = document.getElementById('engineVoiceRSS');
+        const apiMessage = document.getElementById('apiMessage');
 
         // Variables globales
         let synth = window.speechSynthesis;
@@ -608,6 +637,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             updateButtons();
             status.textContent = 'Moteur navigateur activé';
             status.className = 'status ready';
+            clearApiMessage();
         });
 
         engineVoiceRSS.addEventListener('click', () => {
@@ -616,9 +646,23 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             voiceRSSConfig.classList.remove('hidden');
             currentEngine = 'voicerss';
             updateButtons();
-            status.textContent = 'VoiceRSS activé - Entrez votre clé API';
+            status.textContent = 'VoiceRSS activé - Clé API configurée';
             status.className = 'status ready';
+            clearApiMessage();
         });
+
+        // Fonction pour afficher les messages API
+        function showApiMessage(message, type = 'error') {
+            clearApiMessage();
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
+            messageDiv.textContent = message;
+            apiMessage.appendChild(messageDiv);
+        }
+
+        function clearApiMessage() {
+            apiMessage.innerHTML = '';
+        }
 
         // Mettre à jour les statistiques du texte
         function updateTextStats() {
@@ -721,18 +765,33 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
         textInput.addEventListener('input', updateTextStats);
         updateTextStats();
 
-        // Utiliser VoiceRSS pour la synthèse vocale
+        // Fonction utilitaire pour vérifier si une chaîne est valide en base64
+        function isValidBase64(str) {
+            try {
+                return btoa(atob(str)) === str;
+            } catch (err) {
+                return false;
+            }
+        }
+
+        // Utiliser VoiceRSS pour la synthèse vocale (CORRIGÉE)
         async function speakWithVoiceRSS() {
             const text = textInput.value.trim();
             const apiKey = apiKeyInput.value.trim();
             
             if (!apiKey) {
-                alert('Veuillez entrer votre clé API VoiceRSS.');
+                showApiMessage('Veuillez entrer votre clé API VoiceRSS.');
                 return;
             }
             
             if (text === '') {
-                alert('Veuillez saisir du texte à lire.');
+                showApiMessage('Veuillez saisir du texte à lire.');
+                return;
+            }
+            
+            // Limiter la taille du texte pour VoiceRSS gratuit (100KB)
+            if (text.length > 5000) {
+                showApiMessage('Le texte est trop long pour VoiceRSS gratuit (limite: 5000 caractères). Réduisez le texte.');
                 return;
             }
             
@@ -740,6 +799,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             playBtn.disabled = true;
             status.textContent = 'Génération de l\'audio en cours...';
             status.className = 'status processing';
+            clearApiMessage();
             
             try {
                 // Préparer les paramètres pour VoiceRSS
@@ -749,10 +809,10 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                     hl: 'fr-fr', // Langue française
                     v: 'Louis',  // Voix masculine française (Louis)
                     r: rateSlider.value, // Vitesse
-                    c: 'MP3',    // Format audio
+                    c: 'mp3',    // Format audio
                     f: '44khz_16bit_stereo', // Qualité audio
                     ssml: 'false',
-                    b64: 'true'  // Retourner l'audio en base64
+                    b64: 'false'  // Ne pas retourner en base64
                 });
                 
                 // Appeler l'API VoiceRSS
@@ -762,21 +822,29 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                     throw new Error(`Erreur HTTP: ${response.status}`);
                 }
                 
-                const audioData = await response.text();
+                // Obtenir le contenu de la réponse
+                const responseText = await response.text();
                 
-                // Vérifier si une erreur est retournée par l'API
-                if (audioData.startsWith('ERROR')) {
-                    throw new Error(`VoiceRSS: ${audioData}`);
+                // Vérifier si c'est une erreur de l'API VoiceRSS
+                if (responseText.includes('ERROR')) {
+                    throw new Error(`VoiceRSS: ${responseText}`);
                 }
                 
-                // Convertir la réponse base64 en Blob
-                const byteCharacters = atob(audioData);
-                const byteNumbers = new Array(byteCharacters.length);
-                for (let i = 0; i < byteCharacters.length; i++) {
-                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                // Vérifier si la réponse est en base64 (par sécurité)
+                if (isValidBase64(responseText)) {
+                    // Décoder la base64
+                    const byteCharacters = atob(responseText);
+                    const byteNumbers = new Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+                    const byteArray = new Uint8Array(byteNumbers);
+                    audioBlob = new Blob([byteArray], { type: 'audio/mp3' });
+                } else {
+                    // Sinon, traiter comme un fichier audio binaire
+                    const audioData = await response.arrayBuffer();
+                    audioBlob = new Blob([audioData], { type: 'audio/mp3' });
                 }
-                const byteArray = new Uint8Array(byteNumbers);
-                audioBlob = new Blob([byteArray], { type: 'audio/mp3' });
                 
                 // Créer une URL pour le Blob
                 if (audioUrl) {
@@ -814,6 +882,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                     updateButtons();
                     status.textContent = 'Lecture terminée - Prêt à télécharger';
                     status.className = 'status ready';
+                    showApiMessage('Audio généré avec succès ! Cliquez sur "Télécharger MP3" pour enregistrer.', 'success');
                 };
                 
                 audioElement.onerror = (error) => {
@@ -824,6 +893,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                     status.textContent = 'Erreur lors de la lecture audio';
                     status.className = 'status stopped';
                     playBtn.disabled = false;
+                    showApiMessage('Erreur lors de la lecture audio. Vérifiez votre connexion.');
                 };
                 
                 // Activer le bouton de téléchargement
@@ -835,7 +905,18 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                 
             } catch (error) {
                 console.error('Erreur VoiceRSS:', error);
-                alert(`Erreur lors de la génération audio: ${error.message}`);
+                
+                // Message d'erreur spécifique pour atob
+                if (error.name === 'InvalidCharacterError' || error.message.includes('atob')) {
+                    showApiMessage('Erreur de décodage audio. Vérifiez votre clé API VoiceRSS et assurez-vous qu\'elle est valide.');
+                } else if (error.message.includes('VoiceRSS:')) {
+                    // Message d'erreur de l'API VoiceRSS
+                    const errorMsg = error.message.replace('VoiceRSS: ', '');
+                    showApiMessage(`Erreur VoiceRSS: ${errorMsg}`);
+                } else {
+                    showApiMessage(`Erreur: ${error.message}`);
+                }
+                
                 status.textContent = 'Erreur lors de la génération audio';
                 status.className = 'status stopped';
                 playBtn.disabled = false;
@@ -846,12 +927,12 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
         function speakWithBrowser() {
             const text = textInput.value.trim();
             if (text === '') {
-                alert('Veuillez saisir du texte à lire.');
+                showApiMessage('Veuillez saisir du texte à lire.');
                 return;
             }
             
             if (!selectedVoice) {
-                alert('Aucune voix sélectionnée. Veuillez choisir une voix.');
+                showApiMessage('Aucune voix sélectionnée. Veuillez choisir une voix.');
                 return;
             }
             
@@ -862,6 +943,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             
             // Désactiver le bouton de téléchargement pour le navigateur
             downloadBtn.disabled = true;
+            clearApiMessage();
             
             // Créer une nouvelle utterance
             currentUtterance = new SpeechSynthesisUtterance(text);
@@ -896,6 +978,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                 updateButtons();
                 status.textContent = 'Erreur lors de la lecture';
                 status.className = 'status stopped';
+                showApiMessage('Erreur lors de la synthèse vocale du navigateur.');
             };
             
             currentUtterance.onpause = () => {
@@ -996,7 +1079,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
         // Gérer le téléchargement
         downloadBtn.addEventListener('click', () => {
             if (!audioBlob) {
-                alert('Aucun fichier audio à télécharger. Veuillez d\'abord générer l\'audio.');
+                showApiMessage('Aucun fichier audio à télécharger. Veuillez d\'abord générer l\'audio avec VoiceRSS.');
                 return;
             }
             
@@ -1005,20 +1088,16 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             downloadLink.href = audioUrl;
             
             // Générer un nom de fichier basé sur le contenu
-            const text = textInput.value.trim().substring(0, 50).replace(/[^a-z0-9]/gi, '_');
+            const text = textInput.value.trim().substring(0, 30).replace(/[^a-z0-9]/gi, '_').replace(/_+/g, '_');
             const timestamp = new Date().toISOString().slice(0, 19).replace(/[:.]/g, '-');
-            downloadLink.download = `synthèse_vocale_${text}_${timestamp}.mp3`;
+            downloadLink.download = `audio_${text}_${timestamp}.mp3`;
             
             // Déclencher le téléchargement
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
             
-            status.textContent = 'Téléchargement démarré';
-            setTimeout(() => {
-                status.textContent = 'Prêt à convertir le texte en voix';
-                status.className = 'status ready';
-            }, 2000);
+            showApiMessage('Téléchargement démarré !', 'success');
         });
 
         // Gérer la réinitialisation
@@ -1067,6 +1146,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             updateButtons();
             status.textContent = 'Prêt à convertir le texte en voix';
             status.className = 'status ready';
+            clearApiMessage();
         });
 
         // Mettre à jour l'état des boutons
@@ -1098,10 +1178,19 @@ Avec VoiceRSS, vous pouvez générer un fichier audio de haute qualité et le t�
 
 Essayez avec votre propre texte maintenant !`;
             updateTextStats();
+            clearApiMessage();
         });
 
         // Mettre à jour l'état des boutons quand la clé API change
         apiKeyInput.addEventListener('input', updateButtons);
+
+        // Tester la clé API au chargement de la page
+        window.addEventListener('load', () => {
+            // Vérifier si la clé API est présente
+            if (apiKeyInput.value.trim()) {
+                showApiMessage('✅ Clé API VoiceRSS détectée. Vous pouvez utiliser VoiceRSS.', 'success');
+            }
+        });
 
         // Initialiser l'état des boutons
         updateButtons();
