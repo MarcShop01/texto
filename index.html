@@ -23,7 +23,7 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             width: 100%;
             background-color: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
@@ -189,6 +189,7 @@
             color: #2c3e50;
         }
 
+        /* Styles pour les options de voix */
         .voices-container {
             display: flex;
             flex-wrap: wrap;
@@ -198,7 +199,7 @@
 
         .voice-option {
             flex: 1;
-            min-width: 200px;
+            min-width: 180px;
             padding: 15px;
             border: 2px solid #ddd;
             border-radius: 10px;
@@ -220,11 +221,78 @@
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .voice-details {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
         }
 
         .voice-lang {
+            background-color: #e8f4fc;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .voice-gender {
+            font-weight: bold;
+        }
+
+        .voice-gender.male {
+            color: #3498db;
+        }
+
+        .voice-gender.female {
+            color: #e74c3c;
+        }
+
+        /* Styles pour le sélecteur de voix VoiceRSS */
+        .voice-rss-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .voice-rss-option {
+            flex: 1;
+            min-width: 150px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .voice-rss-option:hover {
+            border-color: #3498db;
+            background-color: #f0f8ff;
+        }
+
+        .voice-rss-option.selected {
+            border-color: #9b59b6;
+            background-color: #f4ecf7;
+        }
+
+        .voice-rss-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .voice-rss-details {
             color: #7f8c8d;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
         }
 
         .buttons {
@@ -453,7 +521,7 @@
                 flex-direction: column;
             }
             
-            .voice-option, .api-input-group {
+            .voice-option, .api-input-group, .voice-rss-option {
                 min-width: 100%;
             }
             
@@ -536,9 +604,22 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
 
         <section class="voices-section">
             <h2>Sélectionnez une voix</h2>
-            <p id="voicesLoading">Chargement des voix disponibles...</p>
-            <div class="voices-container" id="voicesContainer">
-                <!-- Les options de voix seront ajoutées dynamiquement -->
+            
+            <!-- Voix du navigateur (affiché par défaut) -->
+            <div id="browserVoices">
+                <p id="voicesLoading">Chargement des voix disponibles...</p>
+                <div class="voices-container" id="voicesContainer">
+                    <!-- Les options de voix du navigateur seront ajoutées dynamiquement -->
+                </div>
+            </div>
+            
+            <!-- Voix VoiceRSS (caché par défaut) -->
+            <div id="voiceRSSVoices" class="hidden">
+                <p>Choisissez une voix VoiceRSS pour la synthèse vocale :</p>
+                <div class="voice-rss-selector" id="voiceRSSContainer">
+                    <!-- Les options de voix VoiceRSS seront ajoutées dynamiquement -->
+                </div>
+                <p class="api-note">Les voix VoiceRSS offrent une meilleure qualité audio et supportent le téléchargement MP3.</p>
             </div>
         </section>
 
@@ -601,7 +682,10 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
         const volumeSlider = document.getElementById('volume');
         const volumeValue = document.getElementById('volumeValue');
         const voicesContainer = document.getElementById('voicesContainer');
+        const voiceRSSContainer = document.getElementById('voiceRSSContainer');
         const voicesLoading = document.getElementById('voicesLoading');
+        const browserVoices = document.getElementById('browserVoices');
+        const voiceRSSVoices = document.getElementById('voiceRSSVoices');
         const playBtn = document.getElementById('playBtn');
         const pauseBtn = document.getElementById('pauseBtn');
         const resumeBtn = document.getElementById('resumeBtn');
@@ -620,6 +704,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
         let synth = window.speechSynthesis;
         let voices = [];
         let selectedVoice = null;
+        let selectedVoiceRSS = null;
         let isPlaying = false;
         let isPaused = false;
         let currentUtterance = null;
@@ -628,11 +713,45 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
         let currentEngine = 'browser'; // 'browser' ou 'voicerss'
         let audioElement = null;
 
+        // Liste complète des voix VoiceRSS disponibles
+        const voiceRSSVoicesList = [
+            { code: 'Alice', name: 'Alice', language: 'Français', country: 'France', gender: 'Femme', langCode: 'fr-fr' },
+            { code: 'Julie', name: 'Julie', language: 'Français', country: 'France', gender: 'Femme', langCode: 'fr-fr' },
+            { code: 'Mathieu', name: 'Mathieu', language: 'Français', country: 'France', gender: 'Homme', langCode: 'fr-fr' },
+            { code: 'Louis', name: 'Louis', language: 'Français', country: 'France', gender: 'Homme', langCode: 'fr-fr' },
+            { code: 'Paul', name: 'Paul', language: 'Français', country: 'France', gender: 'Homme', langCode: 'fr-fr' },
+            { code: 'Michel', name: 'Michel', language: 'Français', country: 'France', gender: 'Homme', langCode: 'fr-fr' },
+            { code: 'Laetitia', name: 'Laetitia', language: 'Français', country: 'France', gender: 'Femme', langCode: 'fr-fr' },
+            { code: 'Laura', name: 'Laura', language: 'Français', country: 'Belgique', gender: 'Femme', langCode: 'fr-be' },
+            { code: 'Zoe', name: 'Zoé', language: 'Français', country: 'Canada', gender: 'Femme', langCode: 'fr-ca' },
+            { code: 'Chantal', name: 'Chantal', language: 'Français', country: 'Canada', gender: 'Femme', langCode: 'fr-ca' },
+            { code: 'Samantha', name: 'Samantha', language: 'Anglais', country: 'États-Unis', gender: 'Femme', langCode: 'en-us' },
+            { code: 'Allison', name: 'Allison', language: 'Anglais', country: 'États-Unis', gender: 'Femme', langCode: 'en-us' },
+            { code: 'Karen', name: 'Karen', language: 'Anglais', country: 'Australie', gender: 'Femme', langCode: 'en-au' },
+            { code: 'Daniel', name: 'Daniel', language: 'Anglais', country: 'Royaume-Uni', gender: 'Homme', langCode: 'en-gb' },
+            { code: 'Moira', name: 'Moira', language: 'Anglais', country: 'Irlande', gender: 'Femme', langCode: 'en-ie' },
+            { code: 'Rishi', name: 'Rishi', language: 'Anglais', country: 'Inde', gender: 'Homme', langCode: 'en-in' },
+            { code: 'Tessa', name: 'Tessa', language: 'Anglais', country: 'Afrique du Sud', gender: 'Femme', langCode: 'en-za' },
+            { code: 'Carmen', name: 'Carmen', language: 'Espagnol', country: 'Espagne', gender: 'Femme', langCode: 'es-es' },
+            { code: 'Jorge', name: 'Jorge', language: 'Espagnol', country: 'Espagne', gender: 'Homme', langCode: 'es-es' },
+            { code: 'Monica', name: 'Monica', language: 'Espagnol', country: 'Mexique', gender: 'Femme', langCode: 'es-mx' },
+            { code: 'Paulina', name: 'Paulina', language: 'Espagnol', country: 'Mexique', gender: 'Femme', langCode: 'es-mx' },
+            { code: 'Luca', name: 'Luca', language: 'Italien', country: 'Italie', gender: 'Homme', langCode: 'it-it' },
+            { code: 'Paola', name: 'Paola', language: 'Italien', country: 'Italie', gender: 'Femme', langCode: 'it-it' },
+            { code: 'Anna', name: 'Anna', language: 'Allemand', country: 'Allemagne', gender: 'Femme', langCode: 'de-de' },
+            { code: 'Markus', name: 'Markus', language: 'Allemand', country: 'Allemagne', gender: 'Homme', langCode: 'de-de' },
+            { code: 'Yannick', name: 'Yannick', language: 'Allemand', country: 'Suisse', gender: 'Homme', langCode: 'de-ch' },
+            { code: 'Amelie', name: 'Amélie', language: 'Français', country: 'France', gender: 'Femme', langCode: 'fr-fr' },
+            { code: 'Thomas', name: 'Thomas', language: 'Français', country: 'France', gender: 'Homme', langCode: 'fr-fr' }
+        ];
+
         // Configuration des moteurs
         engineBrowser.addEventListener('click', () => {
             engineBrowser.classList.add('selected');
             engineVoiceRSS.classList.remove('selected');
             voiceRSSConfig.classList.add('hidden');
+            browserVoices.classList.remove('hidden');
+            voiceRSSVoices.classList.add('hidden');
             currentEngine = 'browser';
             updateButtons();
             status.textContent = 'Moteur navigateur activé';
@@ -644,6 +763,8 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             engineBrowser.classList.remove('selected');
             engineVoiceRSS.classList.add('selected');
             voiceRSSConfig.classList.remove('hidden');
+            browserVoices.classList.add('hidden');
+            voiceRSSVoices.classList.remove('hidden');
             currentEngine = 'voicerss';
             updateButtons();
             status.textContent = 'VoiceRSS activé - Clé API configurée';
@@ -670,11 +791,9 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             const charCountValue = text.length;
             const wordCountValue = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
             
-            // Compter les phrases (séparées par . ! ?)
             const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
             const sentenceCountValue = sentences.length;
             
-            // Estimation de la taille audio (approximative)
             const estimatedAudioSize = Math.round(charCountValue * 0.05);
             
             charCount.textContent = `${charCountValue} caractères`;
@@ -729,9 +848,14 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                     selectedVoice = voice;
                 }
                 
+                const gender = voice.name.toLowerCase().includes('female') || voice.name.toLowerCase().includes('femme') ? 'Femme' : 'Homme';
+                
                 voiceOption.innerHTML = `
                     <div class="voice-name">${voice.name}</div>
-                    <div class="voice-lang">${voice.lang} - ${voice.localService ? 'Locale' : 'Réseau'}</div>
+                    <div class="voice-details">
+                        <span class="voice-lang">${voice.lang}</span>
+                        <span class="voice-gender ${gender === 'Femme' ? 'female' : 'male'}">${gender}</span>
+                    </div>
                 `;
                 
                 voiceOption.addEventListener('click', () => {
@@ -747,6 +871,69 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             });
         }
 
+        // Charger les voix VoiceRSS
+        function loadVoiceRSSVoices() {
+            voiceRSSContainer.innerHTML = '';
+            
+            // Filtrer pour montrer d'abord les voix françaises
+            const frenchVoices = voiceRSSVoicesList.filter(voice => voice.langCode.startsWith('fr'));
+            const otherVoices = voiceRSSVoicesList.filter(voice => !voice.langCode.startsWith('fr'));
+            
+            // Ajouter les voix françaises d'abord
+            frenchVoices.forEach((voice, index) => {
+                const voiceOption = document.createElement('div');
+                voiceOption.className = 'voice-rss-option';
+                if (index === 0) {
+                    voiceOption.classList.add('selected');
+                    selectedVoiceRSS = voice;
+                }
+                
+                voiceOption.innerHTML = `
+                    <div class="voice-rss-name">${voice.name}</div>
+                    <div class="voice-rss-details">
+                        <span>${voice.language} (${voice.country})</span>
+                        <span class="voice-gender ${voice.gender === 'Femme' ? 'female' : 'male'}">${voice.gender}</span>
+                    </div>
+                `;
+                
+                voiceOption.addEventListener('click', () => {
+                    document.querySelectorAll('.voice-rss-option').forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    
+                    voiceOption.classList.add('selected');
+                    selectedVoiceRSS = voice;
+                });
+                
+                voiceRSSContainer.appendChild(voiceOption);
+            });
+            
+            // Ajouter les autres voix
+            otherVoices.forEach((voice) => {
+                const voiceOption = document.createElement('div');
+                voiceOption.className = 'voice-rss-option';
+                
+                voiceOption.innerHTML = `
+                    <div class="voice-rss-name">${voice.name}</div>
+                    <div class="voice-rss-details">
+                        <span>${voice.language} (${voice.country})</span>
+                        <span class="voice-gender ${voice.gender === 'Femme' ? 'female' : 'male'}">${voice.gender}</span>
+                    </div>
+                `;
+                
+                voiceOption.addEventListener('click', () => {
+                    document.querySelectorAll('.voice-rss-option').forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    
+                    voiceOption.classList.add('selected');
+                    selectedVoiceRSS = voice;
+                });
+                
+                voiceRSSContainer.appendChild(voiceOption);
+            });
+        }
+
         // Initialiser les voix du navigateur
         if (synth.onvoiceschanged !== undefined) {
             synth.onvoiceschanged = loadVoices;
@@ -754,6 +941,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
 
         // Charger les voix au démarrage
         loadVoices();
+        loadVoiceRSSVoices();
 
         // Mettre à jour les stats du texte au chargement et à chaque modification
         textInput.addEventListener('input', updateTextStats);
@@ -774,13 +962,18 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                 return;
             }
             
+            if (!selectedVoiceRSS) {
+                showApiMessage('Veuillez sélectionner une voix VoiceRSS.');
+                return;
+            }
+            
             if (text.length > 5000) {
                 showApiMessage('Le texte est trop long pour VoiceRSS gratuit (limite: 5000 caractères). Réduisez le texte.');
                 return;
             }
             
             playBtn.disabled = true;
-            status.textContent = 'Génération de l\'audio en cours...';
+            status.textContent = `Génération audio avec ${selectedVoiceRSS.name}...`;
             status.className = 'status processing';
             clearApiMessage();
             
@@ -788,8 +981,8 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                 const params = new URLSearchParams({
                     key: apiKey,
                     src: text,
-                    hl: 'fr-fr',
-                    v: 'Louis',
+                    hl: selectedVoiceRSS.langCode, // Utiliser le code langue de la voix sélectionnée
+                    v: selectedVoiceRSS.code, // Utiliser le code de la voix sélectionnée
                     r: rateSlider.value,
                     c: 'MP3',
                     f: '44khz_16bit_stereo',
@@ -833,7 +1026,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                     isPlaying = true;
                     isPaused = false;
                     updateButtons();
-                    status.textContent = 'Lecture en cours...';
+                    status.textContent = `Lecture avec ${selectedVoiceRSS.name}...`;
                     status.className = 'status speaking';
                 };
                 
@@ -850,7 +1043,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                     updateButtons();
                     status.textContent = 'Lecture terminée - Prêt à télécharger';
                     status.className = 'status ready';
-                    showApiMessage('Audio généré avec succès ! Cliquez sur "Télécharger MP3" pour enregistrer.', 'success');
+                    showApiMessage(`Audio généré avec ${selectedVoiceRSS.name} ! Cliquez sur "Télécharger MP3" pour enregistrer.`, 'success');
                 };
                 
                 audioElement.onerror = (error) => {
@@ -1031,25 +1224,26 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             }
         });
 
-        // Gérer le téléchargement - CORRIGÉ SELON LE CODE FONCTIONNEL
+        // Gérer le téléchargement
         downloadBtn.addEventListener('click', function() {
             if (!audioBlob) {
                 showApiMessage('Aucun fichier audio à télécharger. Veuillez d\'abord générer l\'audio avec VoiceRSS.');
                 return;
             }
             
-            // Créer un nom de fichier basé sur le contenu
+            // Créer un nom de fichier basé sur le contenu et la voix
             const text = textInput.value.trim();
+            const voiceName = selectedVoiceRSS ? selectedVoiceRSS.name : 'voix';
+            
             let fileName = 'audio_generé.mp3';
             
             if (text.length > 0) {
-                // Prendre les premiers 20 caractères pour le nom de fichier
-                const safeName = text.substring(0, 20)
+                const safeName = text.substring(0, 15)
                     .replace(/[^a-zA-Z0-9\u00C0-\u017F\s]/g, '')
                     .replace(/\s+/g, '_');
-                fileName = `audio_${safeName}_${Date.now()}.mp3`;
+                fileName = `audio_${voiceName}_${safeName}_${Date.now()}.mp3`;
             } else {
-                fileName = `audio_${Date.now()}.mp3`;
+                fileName = `audio_${voiceName}_${Date.now()}.mp3`;
             }
             
             // S'assurer que l'URL est valide
@@ -1070,7 +1264,6 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             // Nettoyer après un court délai
             setTimeout(() => {
                 document.body.removeChild(downloadLink);
-                // Ne pas révoquer l'URL ici - elle est utilisée pour la lecture
             }, 100);
             
             showApiMessage(`Téléchargement démarré: ${fileName}`, 'success');
@@ -1106,6 +1299,7 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
             textInput.value = '';
             updateTextStats();
             
+            // Réinitialiser la sélection de voix
             if (voices.length > 0 && currentEngine === 'browser') {
                 document.querySelectorAll('.voice-option').forEach(option => {
                     option.classList.remove('selected');
@@ -1115,6 +1309,18 @@ Avec VoiceRSS, vous pouvez également télécharger le fichier audio en MP3 pour
                     firstVoiceOption.classList.add('selected');
                 }
                 selectedVoice = voices[0];
+            }
+            
+            // Réinitialiser la sélection de voix VoiceRSS
+            if (currentEngine === 'voicerss') {
+                document.querySelectorAll('.voice-rss-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                const firstVoiceRSSOption = document.querySelector('.voice-rss-option');
+                if (firstVoiceRSSOption) {
+                    firstVoiceRSSOption.classList.add('selected');
+                }
+                selectedVoiceRSS = voiceRSSVoicesList[0];
             }
             
             downloadBtn.disabled = true;
